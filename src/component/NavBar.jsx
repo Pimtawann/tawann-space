@@ -8,8 +8,8 @@ function NavBar() {
         {/* logo */}
         <div className="text-2xl md:text-4xl text-[#26231e] flex items-center">hh<span className="text-[#12b279] text-2xl md:text-4xl">.</span></div>
         <div className="hidden md:flex gap-3 items-center">
-            <button className="bg-white border border-black px-[40px] py-[12px] rounded-full font-medium hover:bg-[#dad6d1] hover:border-0 transition-colors duration-200">Log in</button>
-            <button className="bg-black text-white px-[40px] py-[12px] rounded-full font-medium hover:bg-[#75716b] transition-colors duration-200">Sign up</button>
+            <button className="bg-white border border-black px-[40px] py-[12px] rounded-full font-medium hover:bg-[#dad6d1] hover:border-[#dad6d1] transition-colors duration-200">Log in</button>
+            <button className="bg-black text-white px-[40px] py-[12px] rounded-full font-medium hover:bg-[#dad6d1] hover:text-black transition-colors duration-200">Sign up</button>
         </div>
             <button className="text-4xl text-gray-500 md:hidden" onClick={() => setIsMenuOpen((prev) => !prev)}>☰</button>
         </div>
