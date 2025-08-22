@@ -1,6 +1,6 @@
 import heroSectionImg from "../assets/hero-section-banner.jpg"
 
-function HeroSection (){
+export function HeroSection (){
     return(
         <div className="flex flex-col md:flex-row py-17">
         <div className="grid  md:gap-14 md:grid-cols-12 md:items-center">
@@ -22,4 +22,3 @@ function HeroSection (){
     );
 };
 
-export default HeroSection;
