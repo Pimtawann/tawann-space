@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-function NavBar() {
+export function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return(
-        <nav className="w-full bg-[#f9f8f6] border-b border-gray-300 fixed top-0 left-0 right-0 z-50">
+        <nav className="w-full bg-[#f9f8f6] border-b border-[#dad6d1] fixed top-0 left-0 right-0 z-50">
         <div className="w-full px-7 py-2 md:px-30 md:py-4 flex justify-between items-center">
         {/* logo */}
         <div className="text-2xl md:text-4xl text-[#26231e] flex items-center">hh<span className="text-[#12b279] text-2xl md:text-4xl">.</span></div>
@@ -22,5 +22,3 @@ function NavBar() {
         </nav>
     )
 }
-
-export default NavBar;
