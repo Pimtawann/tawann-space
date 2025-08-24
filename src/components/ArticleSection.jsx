@@ -18,7 +18,7 @@ function ArticleSection () {
                         <div className="relative md:w-[360px]">
                             <Input 
                                 placeholder="Search" 
-                                className="px-5 py-3 h-[48px] bg-white border-gray-300 rounded-lg font-medium text-lg text-[#75716b] focus:ring-2"
+                                className="px-5 py-3 h-[48px] bg-white border-[#dad6d1] rounded-lg font-medium text-lg text-[#75716b] focus:ring-2"
                             />
                             <Search size={20} className="absolute right-5.5 top-1/2 -translate-y-1/2 text-gray-500" />
                         </div>
@@ -26,7 +26,7 @@ function ArticleSection () {
                     <div className="space-y-2 md:hidden">
                         <label className="flex font-medium text-lg text-[#75716b] px-1">Category</label>
                         <Select>
-                            <SelectTrigger size="custom" className="w-full h-[48px] bg-white border border-gray-300 rounded-lg px-5 text-lg font-medium text-[#75716b] focus:ring-2">
+                            <SelectTrigger size="custom" className="w-full h-[48px] bg-white border border-[#dad6d1] rounded-lg px-5 text-lg font-medium text-[#75716b] focus:ring-2">
                                 <SelectValue placeholder="Highlight"/>
                             </SelectTrigger>
                             <SelectContent>

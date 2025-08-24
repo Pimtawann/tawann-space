@@ -2,7 +2,7 @@ import heroSectionImg from "../assets/hero-section-banner.jpg"
 
 export function HeroSection (){
     return(
-        <div className="flex flex-col md:flex-row pt-17">
+        <div className="flex flex-col md:flex-row pt-25">
         <div className="grid  md:gap-14 md:grid-cols-12 md:items-center">
         <div className="md:col-span-4 text-center md:text-left md:flex md:flex-col md:items-end">
             <h1 className="font-semibold text-[40px] text-[#262331e] text-center md:text-[56px] md:leading-[64px] md:text-end">Stay<br className="hidden md:block"/> Informed,<br/>Stay Inspired</h1>
