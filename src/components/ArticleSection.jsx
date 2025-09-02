@@ -11,6 +11,8 @@ import BlogCard from "./BlogCard";
 import { blogPosts } from "../data/blogPosts";
 
 function ArticleSection() {
+  const categories = ["Highlight", "Cat", "Inspiration", "General"];
+
   return (
     <div className="w-full mx-auto md:px-8 py-10">
       <h2 className="text-2xl font-bold text-[#26231e] mb-5 px-5">
@@ -22,15 +24,14 @@ function ArticleSection() {
             <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium bg-[#d8d4ce] text-[#26231e]">
               Highlight
             </button>
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#26231e]">
-              Cat
-            </button>
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#26231e]">
-              Inspiration
-            </button>
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#26231e]">
-              General
-            </button>
+            {categories.slice(1).map((item, index) => (
+              <button
+                key={index}
+                className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#75716b] hover:text-[#26231e]"
+              >
+                {item}
+              </button>
+            ))}
           </div>
           <div className="space-y-2">
             <div className="relative md:w-[360px]">
@@ -56,26 +57,29 @@ function ArticleSection() {
                 <SelectValue placeholder="Highlight" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="highlight">Highlight</SelectItem>
-                <SelectItem value="cat">Cat</SelectItem>
-                <SelectItem value="inspiration">Inspiration</SelectItem>
-                <SelectItem value="general">General</SelectItem>
+                {categories.map((item) => {
+                  return (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
         </div>
       </div>
       <article className="grid grid-cols-1 md:grid-cols-2 py-5 gap-10 md:gap-3 mx-6 md:mb-10">
-        {blogPosts.map((post, index)=>(
-            <BlogCard
-              key = {index}
-              image = {post.image}
-              category = {post.category}
-              title = {post.title}
-              description = {post.description}
-              author = {post.author}
-              date = {post.date}
-            />
+        {blogPosts.map((post, index) => (
+          <BlogCard
+            key={index}
+            image={post.image}
+            category={post.category}
+            title={post.title}
+            description={post.description}
+            author={post.author}
+            date={post.date}
+          />
         ))}
       </article>
       <div className="py-5">
