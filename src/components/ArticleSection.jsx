@@ -11,6 +11,8 @@ import BlogCard from "./BlogCard";
 import { blogPosts } from "../data/blogPosts";
 
 function ArticleSection() {
+  const categories = ["Highlight", "Cat", "Inspiration", "General"];
+
   return (
     <div className="w-full mx-auto md:px-8 py-10">
       <h2 className="text-2xl font-bold text-[#26231e] mb-5 px-5">
@@ -22,15 +24,14 @@ function ArticleSection() {
             <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium bg-[#d8d4ce] text-[#26231e]">
               Highlight
             </button>
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#26231e]">
-              Cat
-            </button>
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#26231e]">
-              Inspiration
-            </button>
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#26231e]">
-              General
-            </button>
+            {categories.slice(1).map((item, index) => (
+              <button
+                key={index}
+                className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#75716b] hover:text-[#26231e]"
+              >
+                {item}
+              </button>
+            ))}
           </div>
           <div className="space-y-2">
             <div className="relative md:w-[360px]">
@@ -56,64 +57,30 @@ function ArticleSection() {
                 <SelectValue placeholder="Highlight" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="highlight">Highlight</SelectItem>
-                <SelectItem value="cat">Cat</SelectItem>
-                <SelectItem value="inspiration">Inspiration</SelectItem>
-                <SelectItem value="general">General</SelectItem>
+                {categories.map((item) => {
+                  return (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
         </div>
       </div>
       <article className="grid grid-cols-1 md:grid-cols-2 py-5 gap-10 md:gap-3 mx-6 md:mb-10">
-        <BlogCard
-          image={blogPosts[0].image}
-          category={blogPosts[0].category}
-          title={blogPosts[0].title}
-          description={blogPosts[0].description}
-          author={blogPosts[0].author}
-          date={blogPosts[0].date}
-        />
-        <BlogCard
-          image={blogPosts[1].image}
-          category={blogPosts[1].category}
-          title={blogPosts[1].title}
-          description={blogPosts[1].description}
-          author={blogPosts[1].author}
-          date={blogPosts[1].date}
-        />
-        <BlogCard
-          image={blogPosts[2].image}
-          category={blogPosts[2].category}
-          title={blogPosts[2].title}
-          description={blogPosts[2].description}
-          author={blogPosts[2].author}
-          date={blogPosts[2].date}
-        />
-        <BlogCard
-          image={blogPosts[3].image}
-          category={blogPosts[3].category}
-          title={blogPosts[3].title}
-          description={blogPosts[3].description}
-          author={blogPosts[3].author}
-          date={blogPosts[3].date}
-        />
-        <BlogCard
-          image={blogPosts[4].image}
-          category={blogPosts[4].category}
-          title={blogPosts[4].title}
-          description={blogPosts[4].description}
-          author={blogPosts[4].author}
-          date={blogPosts[4].date}
-        />
-        <BlogCard
-          image={blogPosts[5].image}
-          category={blogPosts[5].category}
-          title={blogPosts[5].title}
-          description={blogPosts[5].description}
-          author={blogPosts[5].author}
-          date={blogPosts[5].date}
-        />
+        {blogPosts.map((post, index) => (
+          <BlogCard
+            key={index}
+            image={post.image}
+            category={post.category}
+            title={post.title}
+            description={post.description}
+            author={post.author}
+            date={post.date}
+          />
+        ))}
       </article>
       <div className="py-5">
         <p className="text-center font-medium text-[#26231e] underline hover:text-[#75716b]">
