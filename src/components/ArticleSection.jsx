@@ -50,7 +50,7 @@ function ArticleSection() {
             <label className="flex font-medium text-lg text-[#75716b] px-1">
               Category
             </label>
-            <Select>
+            <Select onValueChange = {(value) => setCategory(value)}>
               <SelectTrigger
                 size="custom"
                 className="w-full h-[48px] bg-white border border-[#dad6d1] rounded-lg px-5 text-lg font-medium text-[#75716b] focus:ring-2"
