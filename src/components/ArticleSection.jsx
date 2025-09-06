@@ -9,9 +9,11 @@ import { Input } from "./ui/input";
 import { Search } from "lucide-react";
 import BlogCard from "./BlogCard";
 import { blogPosts } from "../data/blogPosts";
+import { useState } from "react";
 
 function ArticleSection() {
   const categories = ["Highlight", "Cat", "Inspiration", "General"];
+  const [category, setCategory] = useState("Highlight");
 
   return (
     <div className="w-full mx-auto md:px-8 py-10">
@@ -21,13 +23,12 @@ function ArticleSection() {
       <div className="bg-[#efeeeb] h-[172px] md:h-[80px] p-3.5 md:rounded-2xl md:mx-5">
         <div className="grid gap-3 md:flex md:justify-between md:items-center">
           <div className="hidden md:flex md:flex-nowrap md:gap-4">
-            <button className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium bg-[#d8d4ce] text-[#26231e]">
-              Highlight
-            </button>
-            {categories.slice(1).map((item, index) => (
+            {categories.map((item, index) => (
               <button
                 key={index}
-                className="h-[48px] px-4 py-2 rounded-lg text-sm font-medium text-[#75716b] hover:text-[#26231e]"
+                className={`${category === item ? "bg-[#d8d4ce] text-[#26231e]" : "hover:bg-gray-100 text-[#75716b]"} h-[48px] px-4 py-2 rounded-lg text-sm font-medium`}
+                disabled={category === item}
+                onClick={()=>setCategory(item)}
               >
                 {item}
               </button>
@@ -49,7 +50,7 @@ function ArticleSection() {
             <label className="flex font-medium text-lg text-[#75716b] px-1">
               Category
             </label>
-            <Select>
+            <Select onValueChange = {(value) => setCategory(value)}>
               <SelectTrigger
                 size="custom"
                 className="w-full h-[48px] bg-white border border-[#dad6d1] rounded-lg px-5 text-lg font-medium text-[#75716b] focus:ring-2"
