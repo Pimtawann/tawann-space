@@ -19,7 +19,6 @@ function ViewPostPage() {
       const response = await axios.get(
         `https://blog-post-project-api.vercel.app/posts/${param.postId}`
       );
-      console.log("API res", response.data);
       setPost(response.data);
     } catch (err) {
       setError(err);
