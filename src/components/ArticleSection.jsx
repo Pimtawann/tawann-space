@@ -70,7 +70,7 @@ function ArticleSection() {
         Latest articles
       </h2>
       <div className="bg-[#efeeeb] h-[172px] md:h-[80px] p-3.5 md:rounded-2xl md:mx-5">
-        <div className="grid gap-3 md:flex md:justify-between md:items-center">
+        <div className="grid gap-3 md:flex md:justify-between md:items-center md:align-middle">
           <div className="hidden md:flex md:flex-nowrap md:gap-4">
             {categories.map((item, index) => (
               <button

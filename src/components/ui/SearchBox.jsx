@@ -45,10 +45,10 @@ function SearchBox(props) {
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
           placeholder="Search"
-          className="w-full h-[44px] px-4 border rounded-lg"
+          className="w-full h-[48px] px-4 border rounded-lg bg-white text-[#26231e] placeholder:text-[#75716b] placeholder:font-medium"
         />
         {open && (
-          <div className="absolute w-full mt-2 bg-white border rounded-xl shadow z-[60]">
+          <div className="absolute w-full mt-2 bg-white text-[#26231e] border rounded-xl shadow z-[60]">
             {results.length === 0 && (
               <div className="px-4 py-3 text-sm text-gray-500">No results</div>
             )}
@@ -56,7 +56,7 @@ function SearchBox(props) {
               <button
                 key={post.id}
                 onClick={() => go(post)}
-                className="w-full text-left px-4 py-2 hover:bg-gray-50"
+                className="w-full text-left px-4 py-2 hover:bg-[#efeeeb] hover:text-[#75716b]"
               >
                 <div className="font-medium">{post.title}</div>
               </button>
