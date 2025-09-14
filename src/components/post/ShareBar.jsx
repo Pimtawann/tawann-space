@@ -12,11 +12,11 @@ function ShareBar(props) {
             className="mx-auto w-full max-w-[360px] justify-center"
           />
         </div>
-        <div className="flex w-full gap-2">
-          <div className="flex w-full items-center justify-between gap-4">
+        <div className="flex w-full md:w-auto gap-2">
+          <div className="flex  w-full md:w-auto items-center justify-between">
             <CopyLinkButton url={props.url} />
           </div>
-          <div>
+          <div className="flex md:w-full">
             <SocialButton url={props.url} title={props.title} />
           </div>
         </div>

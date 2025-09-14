@@ -23,7 +23,7 @@ function ReactionPill(props) {
     <div>
       <button
         onClick={handleClick}
-        className="flex justify-center items-center gap-2 h-[47px] md:w-[45%] font-medium rounded-full border border-[#26231e] bg-white w-full py-2 hover:bg-zinc-50"
+        className="flex justify-center items-center gap-2 h-[47px] md:w-[120px] font-medium rounded-full border border-[#26231e] bg-white w-full py-2 hover:bg-zinc-50"
         aria-label="React to this post"
       >
         <SmilePlus size={20} strokeWidth={1.2}/>
