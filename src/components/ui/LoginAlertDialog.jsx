@@ -33,7 +33,7 @@ function LoginAlertDialog({ open, onClose, onCreate, onGoLogin }) {
         <div className="px-6 pb-8 flex flex-col items-center gap-4 md:pt-4">
           <button
             onClick={goCreate}
-            className="w-45 rounded-full bg-[#26231e] px-4 py-2 text-white font-medium shadow hover:opacity-90" 
+            className="w-45 rounded-full bg-[#26231e] px-4 py-2 text-white font-medium shadow hover:opacity-80" 
           >
             Create account
           </button>
@@ -42,7 +42,7 @@ function LoginAlertDialog({ open, onClose, onCreate, onGoLogin }) {
             Already have an account?{" "}
             <button
               onClick={goLogin}
-              className="font-medium underline underline-offset-2 text-black hover:text-zinc-700"
+              className="font-medium underline underline-offset-2 text-black hover:text-zinc-500"
             >
               Log in
             </button>

@@ -5,7 +5,7 @@ function PostContent(props) {
   return (
     <div className="flex flex-col gap-4 py-2 md:mx-6">
       <div className="mx-6 md:mx-0 flex flex-col">
-        <div className="flex mt-2">
+        <div className="flex mt-2 items-center">
           <span className="bg-[#d7f2e9] rounded-full px-3 py-1 text-sm font-medium text-green-600 mb-1 mr-5">
             {props.category}
           </span>
