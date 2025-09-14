@@ -1,36 +1,53 @@
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Toaster } from "sonner";
+
 import { NavBar } from "../components/NavBar";
 import { Footer } from "../components/Footer";
 import PostSection from "@/components/post/PostSection";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Toaster } from "sonner";
 import ShareBar from "@/components/post/ShareBar";
 import CommentBox from "@/components/post/CommentBox";
+import NotFound from "@/components/NotFound";
+import NotFoundPage from "./NotFoundPage";
 
 function ViewPostPage() {
   const param = useParams();
   const [post, setPost] = useState(null);
-  const [error, setError] = useState(null);
-  const url = typeof window !== "undefined" ? window.location.href : "";
-
-  const getPost = async () => {
-    try {
-      const response = await axios.get(
-        `https://blog-post-project-api.vercel.app/posts/${param.postId}`
-      );
-      setPost(response.data);
-    } catch (err) {
-      setError(err);
-    }
-  };
+  const [status, setStatus] = useState("loading");
+  const navigate = useNavigate();
+  const alive = useRef(true);
 
   useEffect(() => {
-    getPost();
+    alive.current = true;
+
+    (async () => {
+      try {
+        setStatus("loading");
+        const { data } = await axios.get(
+          `https://blog-post-project-api.vercel.app/posts/${param.postId}`
+        );
+        if (!alive.current) return;
+        if (!data || !data.id) return setStatus("notfound");
+        setPost(data);
+        setStatus("ok");
+      } catch (err) {
+        if (!alive.current) return;
+        setStatus(err?.response?.status === 404 ? "notfound" : "error");
+      }
+    })();
+    return () => {
+      alive.current = false;
+    };
   }, [param.postId]);
 
-  if (!post) return <div className="m-6 text-center">Loading...</div>;
-  if (error) return <div className="m-6 text-center">Error loading post.</div>;
+  if (status === "loading")
+    return <div className="m-6 text-center">Loading...</div>;
+  if (status === "notfound") return <NotFoundPage />;
+  if (status === "error")
+    return (
+      <NotFound title="Something went wrong" onAction={() => navigate("/")} />
+    );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,7 +60,7 @@ function ViewPostPage() {
           <div className="mx-auto my-8 max-w-[1200px] pt-3 md:grid md:grid-cols-12 md:gap-8 md:pt-5">
             <div className="md:col-span-8">
               <ShareBar
-                url={url}
+                url={typeof window !== "undefined" ? window.location.href : ""}
                 title={post.title}
                 reactions={post.likes ?? 0}
               />
