@@ -2,7 +2,7 @@ import buildShareUrls from "@/lib/ShareUrls";
 import { Facebook, Linkedin, Twitter } from 'lucide-react';
 
 
-function SocialButton(props) {
+export default function SocialButton(props) {
   const links = buildShareUrls({ url: props.url , title: props.title });
   const item =
     "grid h-[47px] w-[47px] place-items-center rounded-full hover:opacity-80";
@@ -38,5 +38,3 @@ function SocialButton(props) {
     </div>
   );
 }
-
-export default SocialButton;

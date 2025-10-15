@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function NavBar() {
+export default function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     return(
         <nav className="w-full bg-[#f9f8f6] border-b border-[#dad6d1] fixed top-0 left-0 right-0 z-50">

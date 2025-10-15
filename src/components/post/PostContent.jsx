@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-function PostContent(props) {
+export default function PostContent(props) {
   return (
     <div className="flex flex-col gap-4 py-2 md:mx-6">
       <div className="mx-6 md:mx-0 flex flex-col">
@@ -39,5 +39,3 @@ function PostContent(props) {
     </div>
   );
 }
-
-export default PostContent;

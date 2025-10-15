@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/authentication";
 import LoginAlertDialog from "../ui/LoginAlertDialog";
 
-function CommentBox(props) {
+export default function CommentBox(props) {
   const auth = useAuth();
   const user = auth.user;
   const [text, setText] = useState("");
@@ -45,5 +45,3 @@ function CommentBox(props) {
     </div>
   );
 }
-
-export default CommentBox;

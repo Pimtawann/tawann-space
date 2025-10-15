@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function BlogCard(props) {
+export default function BlogCard(props) {
     return (
         <div className="flex flex-col gap-4 py-2">
             <Link to={`/post/${props.id}`} className="relative">
@@ -29,5 +29,3 @@ function BlogCard(props) {
         </div>
     );
 }
-
-export default BlogCard;

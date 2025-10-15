@@ -1,4 +1,4 @@
-function AuthorCard(props) {
+export default function AuthorCard(props) {
   return (
     <div className="mx-5 mb-8 rounded-2xl border p-5 md:p-6 text-zinc-700 bg-[#efeeeb]">
       <div className="flex items-center gap-3">
@@ -24,5 +24,3 @@ function AuthorCard(props) {
     </div>
   );
 }
-
-export default AuthorCard;
