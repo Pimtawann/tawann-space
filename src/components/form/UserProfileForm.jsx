@@ -2,7 +2,7 @@ import { useState } from "react";
 import Avatar from "@/components/Avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import moodengImg from "@/assets/moodeng.jpg";
+import moodengImg from "@/assets/Moodeng.jpg";
 import { useNavigate } from "react-router-dom";
 import { User, RefreshCcw } from "lucide-react";
 
