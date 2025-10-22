@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   height: 100%;
@@ -130,8 +130,6 @@ h1 {
   --color-green-2: #12b279;
   --color-green-1: #d7f2e9;
   --color-red: #eb5164;
-  
-
 }
 
 .dark {
@@ -175,4 +173,9 @@ h1 {
   body {
     @apply bg-background text-foreground;
   }
+}
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #43403b !important;
+  transition: background-color 9999s ease-in-out 0s;
 }
