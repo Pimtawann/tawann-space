@@ -9,6 +9,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminArticlePage from "./pages/AdminPanelPage";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/admin-panel" element={<AdminLoginPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/article" element={<AdminArticlePage />} />
       </Routes>
     </div>
   );

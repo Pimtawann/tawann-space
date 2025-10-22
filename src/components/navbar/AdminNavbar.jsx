@@ -56,7 +56,7 @@ export default function AdminNavbar() {
                   <RefreshCcw className="w-5 h-5" /> Reset password
                 </button>
                 <button
-                  onClick={() => navigate("/admin-panel")}
+                  onClick={() => navigate("/admin/login")}
                   className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
                 >
                   <SquareArrowOutUpRight className="w-5 h-5" /> Admin panel
@@ -111,7 +111,7 @@ export default function AdminNavbar() {
               <RefreshCcw className="w-6 h-6" /> Reset password
             </button>
             <button
-                  onClick={() => navigate("/admin-panel")}
+                  onClick={() => navigate("/admin/login")}
                   className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
                 >
                   <SquareArrowOutUpRight className="w-6 h-6" /> Admin panel
