@@ -4,7 +4,7 @@ import SocialButton from "./SocialButton";
 
 export default function ShareBar(props) {
   return (
-    <section className="bg-[#efeeeb] p-4 md:p-5 md:rounded-2xl">
+    <section className="bg-brown-2 p-4 md:p-5 md:rounded-2xl">
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
         <div className="relative w-full">
           <ReactionPill
