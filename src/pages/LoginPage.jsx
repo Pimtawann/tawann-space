@@ -1,5 +1,5 @@
 import LoginForm from "@/components/form/LoginForm";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/navbar/NavBar";
 
 export default function LoginPage() {
   return (
