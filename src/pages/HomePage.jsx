@@ -1,8 +1,8 @@
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/navbar/NavBar";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import ArticleSection from "../components/ArticleSection";
-import MemberNavBar from "@/components/MemberNavbar";
+import MemberNavBar from "@/components/navbar/MemberNavbar";
 
 export default function HomePage() {
   return (

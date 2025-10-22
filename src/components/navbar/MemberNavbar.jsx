@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bell, LogOut, User, RefreshCcw, ChevronDown } from "lucide-react";
-import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 
 export default function MemberNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function MemberNavBar() {
               className="flex items-center gap-2"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <Avatar src={avatarUrl} name={username} size={42} />
+              <Avatar src={avatarUrl} name={username} className="!w-11 !h-11"/>
               <span className="text-brown-5 font-medium text-base cursor-pointer">
                 {username}
               </span>
