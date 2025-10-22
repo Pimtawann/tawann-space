@@ -1,7 +1,7 @@
 import { Github, Linkedin } from 'lucide-react';
 import GoogleIcon from "../assets/google.png"
 
-export function Footer () {
+export default function Footer () {
     return(
         <footer className="bg-[#efeeeb]">
             <div className="flex flex-col gap-5 md:flex-row md:justify-between md:py-[60px] md:px-32 items-center mx-auto px-6 py-11 ">

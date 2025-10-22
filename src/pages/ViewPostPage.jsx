@@ -3,15 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 
-import { NavBar } from "../components/NavBar";
-import { Footer } from "../components/Footer";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import PostSection from "@/components/post/PostSection";
 import ShareBar from "@/components/post/ShareBar";
 import CommentBox from "@/components/post/CommentBox";
 import NotFound from "@/components/NotFound";
 import NotFoundPage from "./NotFoundPage";
 
-function ViewPostPage() {
+export default function ViewPostPage() {
   const param = useParams();
   const [post, setPost] = useState(null);
   const [status, setStatus] = useState("loading");
@@ -77,5 +77,3 @@ function ViewPostPage() {
     </div>
   );
 }
-
-export default ViewPostPage;

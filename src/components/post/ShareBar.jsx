@@ -2,7 +2,7 @@ import ReactionPill from "./ReactionPill";
 import CopyLinkButton from "./CopyLinkButton";
 import SocialButton from "./SocialButton";
 
-function ShareBar(props) {
+export default function ShareBar(props) {
   return (
     <section className="bg-[#efeeeb] p-4 md:p-5 md:rounded-2xl">
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
@@ -24,5 +24,3 @@ function ShareBar(props) {
     </section>
   );
 }
-
-export default ShareBar;

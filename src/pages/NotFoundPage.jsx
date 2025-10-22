@@ -1,9 +1,9 @@
-import { NavBar } from "@/components/NavBar"
-import { Footer } from "@/components/Footer"
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 import NotFound from "@/components/NotFound"
 import { useNavigate } from "react-router-dom"
 
-function NotFoundPage () {
+export default function NotFoundPage () {
     const navigate = useNavigate();
 
     return (
@@ -20,5 +20,3 @@ function NotFoundPage () {
         </div>
     )
 }
-
-export default NotFoundPage

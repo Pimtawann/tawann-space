@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { Copy } from 'lucide-react';
 
-function CopyLinkButton (props) {
+export default function CopyLinkButton (props) {
     const copy = async () => {
         try {
             await navigator.clipboard.writeText(props.url);
@@ -20,5 +20,3 @@ function CopyLinkButton (props) {
         </button>
     );
 };
-
-export default CopyLinkButton;

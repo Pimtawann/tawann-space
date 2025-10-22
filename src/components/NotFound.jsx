@@ -1,6 +1,6 @@
 import { CircleAlert } from "lucide-react";
 
-function NotFound(props) {
+export default function NotFound(props) {
   return (
     <div className="flex flex-col items-center gap-5 mx-auto py-50">
       <CircleAlert size={60} />
@@ -16,5 +16,3 @@ function NotFound(props) {
     </div>
   );
 }
-
-export default NotFound;

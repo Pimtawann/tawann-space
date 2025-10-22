@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/authentication";
 import LoginAlertDialog from "../ui/LoginAlertDialog";
 import { SmilePlus } from 'lucide-react';
 
-function ReactionPill(props) {
+export default function ReactionPill(props) {
   const initial = props.initial ?? 0;
   const onReact = props.onReact;
 
@@ -38,5 +38,3 @@ function ReactionPill(props) {
     </div>
   );
 }
-
-export default ReactionPill;

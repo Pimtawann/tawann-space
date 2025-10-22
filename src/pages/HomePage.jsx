@@ -1,9 +1,9 @@
-import { NavBar } from "../components/NavBar";
-import { HeroSection } from "../components/HeroSection";
-import { Footer } from "../components/Footer";
+import NavBar from "@/components/NavBar";
+import HeroSection from "@/components/HeroSection";
+import Footer from "@/components/Footer";
 import ArticleSection from "../components/ArticleSection";
 
-function HomePage() {
+export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -21,5 +21,3 @@ function HomePage() {
     </div>
   );
 }
-
-export default HomePage;

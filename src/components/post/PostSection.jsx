@@ -1,7 +1,7 @@
 import PostContent from "./PostContent";
 import AuthorCard from "./AuthorCard";
 
-function PostSection({ post }) {
+export default function PostSection({ post }) {
   if (!post) return null;
 
   const formatDate = (isoString) => {
@@ -38,5 +38,3 @@ function PostSection({ post }) {
     </div>
   );
 }
-
-export default PostSection;

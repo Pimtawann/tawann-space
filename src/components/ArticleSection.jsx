@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBox from "./ui/SearchBox";
 
-function ArticleSection() {
+export default function ArticleSection() {
   const categories = ["Highlight", "Cat", "Inspiration", "General"];
   const [category, setCategory] = useState("Highlight");
   const [posts, setPosts] = useState([]);
@@ -157,5 +157,3 @@ function ArticleSection() {
     </div>
   );
 }
-
-export default ArticleSection;

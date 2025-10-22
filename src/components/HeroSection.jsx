@@ -1,6 +1,6 @@
 import heroSectionImg from "../assets/hero-section-banner.jpg"
 
-export function HeroSection (){
+export default function HeroSection (){
     return(
         <div className="flex flex-col md:flex-row pt-25">
         <div className="grid  md:gap-14 md:grid-cols-12 md:items-center">
