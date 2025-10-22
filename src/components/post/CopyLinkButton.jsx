@@ -14,7 +14,7 @@ export default function CopyLinkButton (props) {
     return (
         <button
         onClick={copy}
-        className="flex item-center gap-2 justify-center rounded-full w-[170px] md:w-[140px] h-[47px] border border-[#26231e] px-4 py-2.5 font-medium bg-white hover:bg-zinc-50"
+        className="flex item-center gap-2 justify-center rounded-full w-[170px] md:w-[140px] h-[47px] border border-brown-6 px-4 py-2.5 font-medium bg-white hover:bg-brown-2 cursor-pointer"
         >
             <Copy size={19} strokeWidth={1.2} className="mt-[3px]"/> Copy link
         </button>

@@ -1,6 +1,6 @@
 export default function AuthorCard(props) {
   return (
-    <div className="mx-5 mb-8 rounded-2xl border p-5 md:p-6 text-zinc-700 bg-[#efeeeb]">
+    <div className="mx-5 mb-8 rounded-2xl border p-5 md:p-6 bg-brown-2">
       <div className="flex items-center gap-3">
         <img
           className="w-11 h-10 rounded-full mr-2"
@@ -8,14 +8,14 @@ export default function AuthorCard(props) {
           alt={props.author}
         />
         <div className="flex flex-col">
-          <span className="text-sm text-[#75716b] ">Author</span>
-          <span className="text-xl font-semibold text-[#43403b]">
+          <span className="text-sm text-brown-4 ">Author</span>
+          <span className="text-xl font-semibold text-brown-5">
             {props.author}
           </span>
         </div>
       </div>
-      <div className="my-3 h-px bg-gray-300"/>
-      <div  className="space-y-4 leading-6 text-[#75716b] font-medium">
+      <div className="my-3 h-px bg-brown-3"/>
+      <div  className="space-y-4 leading-6 text-brown-4 font-medium">
         <p className="mb-4">I am a pet enthusiast and freelance writer who specializes in animal behavior and care. With a deep love for cats, I enjoy
             sharing insights on feline companionship and wellness.
         </p>
