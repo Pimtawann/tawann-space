@@ -1,13 +1,14 @@
-import NavBar from "@/components/navbar/NavBar";
+import Navbar from "@/components/navbar/NavBar";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import ArticleSection from "../components/ArticleSection";
-import MemberNavBar from "@/components/navbar/MemberNavbar";
+import MemberNavbar from "@/components/navbar/MemberNavbar";
+import AdminNavbar from "@/components/navbar/AdminNavbar";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <MemberNavBar />
+      <AdminNavbar />
       <div className="flex-grow">
         <div className="max-w-[768px] md:max-w-[1200px] md:px-6 md:mx-auto">
           <div className="mx-6">
