@@ -1,10 +1,10 @@
 import SignUpForm from "@/components/form/SignUpForm";
-import NavBar from "@/components/navbar/NavBar";
+import Navbar from "@/components/navbar/PublicNavbar.jsx";
 
 export default function SignUpPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <NavBar />
+      <Navbar />
       <div className="mx-6 mt-6">
         <SignUpForm />
       </div>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 
-import NavBar from "@/components/navbar/NavBar";
+import Navbar from "@/components/navbar/PublicNavbar.jsx";
 import Footer from "@/components/Footer";
 import PostSection from "@/components/post/PostSection";
 import ShareBar from "@/components/post/ShareBar";
@@ -51,7 +51,7 @@ export default function ViewPostPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <NavBar />
+      <Navbar />
       <div className="flex-grow pt-11">
         <div className="max-w-[768px] md:max-w-[1200px] md:px-6 md:mx-auto">
           <div>

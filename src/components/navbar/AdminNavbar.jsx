@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bell, LogOut, User, RefreshCcw, ChevronDown } from "lucide-react";
+import { Bell, LogOut, User, RefreshCcw, ChevronDown, SquareArrowOutUpRight } from "lucide-react";
 import Avatar from "../Avatar";
 
-export default function MemberNavbar() {
+export default function AdminNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -55,6 +55,12 @@ export default function MemberNavbar() {
                 >
                   <RefreshCcw className="w-5 h-5" /> Reset password
                 </button>
+                <button
+                  onClick={() => navigate("/admin/login")}
+                  className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
+                >
+                  <SquareArrowOutUpRight className="w-5 h-5" /> Admin panel
+                </button>
                 <hr className="border-brown-3" />
                 <button
                   onClick={() => navigate("/logout")}
@@ -104,6 +110,12 @@ export default function MemberNavbar() {
             >
               <RefreshCcw className="w-6 h-6" /> Reset password
             </button>
+            <button
+                  onClick={() => navigate("/admin/login")}
+                  className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
+                >
+                  <SquareArrowOutUpRight className="w-6 h-6" /> Admin panel
+                </button>
             <hr className="border-brown-3" />
             <button
               onClick={() => navigate("/logout")}
