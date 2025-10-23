@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/navbar/Navbar.jsx";
 import Footer from "@/components/Footer";
 import NotFound from "@/components/NotFound"
 import { useNavigate } from "react-router-dom"
