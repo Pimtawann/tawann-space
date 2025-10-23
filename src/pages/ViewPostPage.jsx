@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Toaster } from "sonner";
 
-import Navbar from "@/components/navbar/Navbar.jsx";
+import Navbar from "@/components/navbar/PublicNavbar.jsx";
 import Footer from "@/components/Footer";
 import PostSection from "@/components/post/PostSection";
 import ShareBar from "@/components/post/ShareBar";

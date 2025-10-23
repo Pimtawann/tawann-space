@@ -1,5 +1,5 @@
 import SignUpForm from "@/components/form/SignUpForm";
-import Navbar from "@/components/navbar/Navbar.jsx";
+import Navbar from "@/components/navbar/PublicNavbar.jsx";
 
 export default function SignUpPage() {
   return (
