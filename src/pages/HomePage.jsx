@@ -1,8 +1,6 @@
-import Navbar from "@/components/navbar/NavBar";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import ArticleSection from "../components/ArticleSection";
-import MemberNavbar from "@/components/navbar/MemberNavbar";
 import AdminNavbar from "@/components/navbar/AdminNavbar";
 
 export default function HomePage() {
