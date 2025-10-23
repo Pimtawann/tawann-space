@@ -7,6 +7,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <AdminNavbar />
+      
       <div className="flex-grow">
         <div className="max-w-[768px] md:max-w-[1200px] md:px-6 md:mx-auto">
           <div className="mx-6">
