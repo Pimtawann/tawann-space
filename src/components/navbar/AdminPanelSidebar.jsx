@@ -15,20 +15,20 @@ export default function AdminPanelSidebar() {
   const isActive = (path) => location.pathname === path;
 
   const linkClass = (path) =>
-    `flex items-center gap-3 px-6 py-4 ${
+    `flex items-center gap-3 px-4 py-4 ${
       isActive(path)
         ? "bg-brown-3 text-brown-6 font-medium"
         : "!text-brown-4 hover:bg-brown-3"
     }`;
 
   return (
-    <aside className="w-70 h-screen bg-brown-2 border-r border-gray-200 flex flex-col justify-between py-6">
+    <aside className="w-65 h-screen bg-brown-2 border-r border-gray-200 flex flex-col justify-between py-6">
       <div>
         {/* Logo & Title */}
         <div className="px-6 mb-8 mt-10">
-          <h1 className="text-xl text-brown-6">
+          <p className="text-5xl text-brown-6">
             hh<span className="text-green-2">.</span>
-          </h1>
+          </p>
           <p className="text-orange text-xl font-semibold mt-1">Admin panel</p>
         </div>
 

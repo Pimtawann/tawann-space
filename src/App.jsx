@@ -9,7 +9,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
-import AdminArticlePage from "./pages/AdminPanelPage";
+import AdminArticlePage from "./pages/AdminArticlePage";
 
 function App() {
   return (
