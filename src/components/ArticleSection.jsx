@@ -31,7 +31,7 @@ export default function ArticleSection() {
           ? { page, limit: 6 }
           : { page, limit: 6, category };
       const response = await axios.get(
-        "https://blog-post-project-api.vercel.app/posts",
+        "https://tawann-space-db-api.vercel.app/posts",
         { params }
       );
 
