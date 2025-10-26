@@ -10,6 +10,9 @@ import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminArticlePage from "./pages/AdminArticlePage";
+import jwtInterceptor from "./utils/jwtInterceptor";
+
+jwtInterceptor();
 
 function App() {
   return (
