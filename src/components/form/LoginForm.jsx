@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/authentication";
+import { useAuth } from "@/context/authentication";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,7 @@ export default function LoginForm() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState(null);
 
   const validate = () => {
     const newErrors = {};
@@ -36,25 +37,16 @@ export default function LoginForm() {
     const validationErrors = validate();
     setErrors(validationErrors);
 
+    console.log("validationErrors:", validationErrors);
+
     if (Object.keys(validationErrors).length === 0) {
       const result = await login(formData);
+      console.log("login result:", result);
 
       if (result?.error) {
-        toast.custom((t) => (
-          <div className="bg-red-500 text-white p-4 rounded-sm flex justify-between items-start">
-            <div>
-              <h2 className="font-bold text-lg mb-1">{result.error}</h2>
-              <p className="text-sm">Please try another password or email</p>
-            </div>
-            <Button
-              onClick={() => toast.dismiss(t)}
-              className="text-white hover:text-gray-200"
-            >
-              <X size={20} />
-            </Button>
-          </div>
-        ));
+        setLoginError("Please check your email and password and try again.");
       } else {
+        setLoginError(null);
         navigate("/");
       }
     }
@@ -65,7 +57,7 @@ export default function LoginForm() {
       <h1 className="text-xl font-semibold text-center my-6 text-brown-6">
         Log in
       </h1>
-      <form noValidate className="space-y-4 md:mx-16" onSubmit={handleSubmit}>
+      <form noValidate className="space-y-2 md:mx-16" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email" className="text-brown-4 font-medium">
             Email
@@ -107,13 +99,21 @@ export default function LoginForm() {
             } border`}
           />
           <div className="min-h-[1.25rem] mt-1">
-          {errors.password && (
-            <p className="text-red text-sm font-medium mt-1">
-              {errors.password}
-            </p>
-          )}
+            {errors.password && (
+              <p className="text-red text-sm font-medium mt-1">
+                {errors.password}
+              </p>
+            )}
+          </div>
+          <div className="min-h-[1.25rem] mt-1">
+            {loginError && (
+              <p className="text-red text-sm font-medium text-center mt-1">
+                {loginError}
+              </p>
+            )}
           </div>
         </div>
+
         <div className="flex justify-center">
           <Button
             className="w-30 h-12 md:w-34 bg-brown-6 mt-2 text-lg rounded-full font-medium hover:bg-brown-4 cursor-pointer"
