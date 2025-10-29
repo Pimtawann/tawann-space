@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "@/contexts/authentication";
+import { useAuth } from "@/context/authentication";
 import LoginAlertDialog from "../ui/LoginAlertDialog";
 
 export default function CommentBox(props) {

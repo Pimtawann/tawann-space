@@ -8,9 +8,11 @@ import {
   RefreshCcw,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/authentication";
 
 export default function AdminPanelSidebar() {
   const location = useLocation();
+  const { logout } = useAuth();
 
   const isActive = (path) => location.pathname === path;
 
@@ -84,9 +86,7 @@ export default function AdminPanelSidebar() {
         </Link>
         <button
           className="flex items-center gap-3 px-6 py-4 !text-brown-4 hover:text-brown-6 w-full text-left font-medium hover:bg-brown-3 cursor-pointer border-t border-brown-3"
-          onClick={() => {
-            console.log("logout");
-          }}
+          onClick={logout}
         >
           <LogOut className="w-5 h-5" />
           Log out
