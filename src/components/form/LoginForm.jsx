@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/context/authentication";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -40,8 +41,12 @@ export default function LoginForm() {
     console.log("validationErrors:", validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      const result = await login(formData);
-      console.log("login result:", result);
+      const result = await toast.promise(login(formData), {
+        loading: "Logging in...",
+        success: "Logged in successfully",
+        error: (err) => err?.error || "Login failed",
+      });
+  
 
       if (result?.error) {
         setLoginError("Please check your email and password and try again.");
