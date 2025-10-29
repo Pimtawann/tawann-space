@@ -19,7 +19,8 @@ import SignUpSuccessPage from "./pages/SignUpSuccessPage";
 jwtInterceptor();
 
 function App() {
-  const { isAuthenticated, state } = useAuth();
+  const { state } = useAuth();
+  const isAuthenticated = !!state.user;
 
   return (
     <div className="App">
@@ -29,7 +30,6 @@ function App() {
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
         <Route path="*" element={<NotFoundPage />} />
-        
 
         <Route
           path="/signup"
@@ -76,8 +76,6 @@ function App() {
             <ProtectedRoute
               isLoading={state.getUserLoading}
               isAuthenticated={isAuthenticated}
-              userRole={state.user?.role}
-              requiredRole="user"
             >
               <ResetPasswordPage />
             </ProtectedRoute>
@@ -91,8 +89,6 @@ function App() {
             <ProtectedRoute
               isLoading={state.getUserLoading}
               isAuthenticated={isAuthenticated}
-              userRole={state.user?.role}
-              requiredRole="admin"
             >
               <AdminLoginPage />
             </ProtectedRoute>
