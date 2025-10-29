@@ -14,6 +14,7 @@ import jwtInterceptor from "./utils/jwtInterceptor";
 import { useAuth } from "./context/authentication";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AuthenticationRoute from "./components/auth/AuthenticationRoute";
+import SignUpSuccessPage from "./pages/SignUpSuccessPage";
 
 jwtInterceptor();
 
@@ -26,7 +27,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />
+        <Route path="/signup/success" element={<SignUpSuccessPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        
 
         <Route
           path="/signup"

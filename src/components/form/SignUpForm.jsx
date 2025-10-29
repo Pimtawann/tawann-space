@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/context/authentication";
+import { toast, Toaster } from "sonner";
 
 export default function SignUpForm() {
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -45,20 +48,28 @@ export default function SignUpForm() {
     setErrors({ ...errors, [e.target.name]: null }); // เคลียร์ error ขณะพิมพ์
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (validate()) {
-      console.log("✅ success:", formData);
-      // TODO: ส่งไป API ภายหลัง
+      toast.promise(register(formData), {
+        loading: "Signing up...",
+        success: () => {
+          navigate("/sign-up/success");
+          return "Account created successfully!";
+        },
+        error: (err) => err?.error || "Registration failed",
+      });
     }
   };
 
   return (
     <div className="w-full md:w-160 mx-auto mt-20 md:mt-30 bg-brown-2 p-6 rounded-2xl">
+      <Toaster position="top-right" richColors />
       <h1 className="text-xl font-semibold text-center my-6 text-brown-6">
         Sign up
       </h1>
-      <form noValidate onSubmit={handleSubmit} className="space-y-4 md:mx-16">
+      <form noValidate onSubmit={handleSubmit} className="space-y-2 md:mx-16">
         <div>
           <label htmlFor="name" className="text-brown-4 font-medium">
             Name
@@ -69,12 +80,14 @@ export default function SignUpForm() {
             value={formData.name}
             onChange={handleChange}
             className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
-              errors.name ? 'border-red' : 'border-brown-3'
+              errors.name ? "border-red" : "border-brown-3"
             } border`}
           />
-          {errors.name && (
-            <p className="text-red text-sm font-medium mt-1">{errors.name}</p>
-          )}
+          <div className="min-h-[1.25rem] mt-1">
+            {errors.name && (
+              <p className="text-red text-sm font-medium mt-1">{errors.name}</p>
+            )}
+          </div>
         </div>
         <div>
           <label htmlFor="username" className="text-brown-4 font-medium">
@@ -86,14 +99,16 @@ export default function SignUpForm() {
             value={formData.username}
             onChange={handleChange}
             className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
-              errors.username ? 'border-red' : 'border-brown-3'
+              errors.username ? "border-red" : "border-brown-3"
             } border`}
           />
-          {errors.username && (
-            <p className="text-red text-sm font-medium mt-1">
-              {errors.username}
-            </p>
-          )}
+          <div className="min-h-[1.25rem] mt-1">
+            {errors.username && (
+              <p className="text-red text-sm font-medium mt-1">
+                {errors.username}
+              </p>
+            )}
+          </div>
         </div>
         <div>
           <label htmlFor="email" className="text-brown-4 font-medium">
@@ -106,12 +121,16 @@ export default function SignUpForm() {
             value={formData.email}
             onChange={handleChange}
             className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
-              errors.email ? 'border-red' : 'border-brown-3'
+              errors.email ? "border-red" : "border-brown-3"
             } border`}
           />
-          {errors.email && (
-            <p className="text-red text-sm font-medium mt-1">{errors.email}</p>
-          )}
+          <div className="min-h-[1.25rem] mt-1">
+            {errors.email && (
+              <p className="text-red text-sm font-medium mt-1">
+                {errors.email}
+              </p>
+            )}
+          </div>
         </div>
         <div>
           <label htmlFor="password" className="text-brown-4 font-medium">
@@ -124,12 +143,16 @@ export default function SignUpForm() {
             value={formData.password}
             onChange={handleChange}
             className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
-              errors.password ? 'border-red' : 'border-brown-3'
+              errors.password ? "border-red" : "border-brown-3"
             } border`}
           />
-          {errors.password && (
-            <p className="text-red text-sm font-medium mt-1">{errors.password}</p>
-          )}
+          <div className="min-h-[1.25rem] mt-1">
+            {errors.password && (
+              <p className="text-red text-sm font-medium mt-1">
+                {errors.password}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="flex justify-center">

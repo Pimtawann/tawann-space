@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Await, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
@@ -72,7 +72,7 @@ function AuthProvider(props) {
             setState((prevState)=> ({ ...prevState, loading: true, error: null }));
             await axios.post("https://tawann-space-db-api.vercel.app/auth/register", data);
             setState((prevState) => ({ ...prevState, loading: false, error: null }));
-            navigate("/sign-up/success");
+            navigate("/signup/success");
         } catch (error) {
             setState((prevState) => ({ ...prevState, loading: false, error: error.response?.data?.error || "Registration failed", }));
             return { error: state.error }

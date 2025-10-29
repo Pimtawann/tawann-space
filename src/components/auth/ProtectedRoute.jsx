@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Navigate } from "react-router-dom";
-import { LoadingScreen } from "../WebSection";
 
 function ProtectedRoute({
   isLoading,
@@ -13,7 +12,7 @@ function ProtectedRoute({
     return (
       <div className="flex flex-col min-h-screen">
         <div className="min-h-screen md:p-8">
-          <LoadingScreen />
+        <p className="text-center mt-10 text-xl font-semibold">Loading...</p>
         </div>
       </div>
     );
