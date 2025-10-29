@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bell, LogOut, User, RefreshCcw, ChevronDown } from "lucide-react";
 import Avatar from "../Avatar";
+import { useAuth } from "@/context/authentication";
 
 export default function MemberNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const username = "Moodeng ja"; // Mock username
   const avatarUrl = "https://i.imgur.com/7RL7s5R.png"; // Mock avatar image URL
@@ -57,7 +59,7 @@ export default function MemberNavbar() {
                 </button>
                 <hr className="border-brown-3" />
                 <button
-                  onClick={() => navigate("/logout")}
+                  onClick={logout}
                   className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
                 >
                   <LogOut className="w-5 h-5" /> Log out
@@ -106,7 +108,7 @@ export default function MemberNavbar() {
             </button>
             <hr className="border-brown-3" />
             <button
-              onClick={() => navigate("/logout")}
+              onClick={logout}
               className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
             >
               <LogOut className="w-6 h-6" /> Log out
