@@ -19,7 +19,8 @@ import SignUpSuccessPage from "./pages/SignUpSuccessPage";
 jwtInterceptor();
 
 function App() {
-  const { isAuthenticated, state } = useAuth();
+  const { state } = useAuth();
+  const isAuthenticated = !!state.user;
 
   return (
     <div className="App">
@@ -28,8 +29,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
+        <Route path="/admin/article" element={<AdminArticlePage />} />
+
         <Route path="*" element={<NotFoundPage />} />
-        
+
 
         <Route
           path="/signup"
@@ -55,6 +58,18 @@ function App() {
           }
         />
 
+        <Route
+          path="/admin/login"
+          element={
+            <AuthenticationRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+            >
+              <AdminLoginPage />
+            </AuthenticationRoute>
+          }
+        />
+
         {/* user section */}
         <Route
           path="/profile"
@@ -76,8 +91,6 @@ function App() {
             <ProtectedRoute
               isLoading={state.getUserLoading}
               isAuthenticated={isAuthenticated}
-              userRole={state.user?.role}
-              requiredRole="user"
             >
               <ResetPasswordPage />
             </ProtectedRoute>
@@ -85,21 +98,7 @@ function App() {
         />
 
         {/* admin section */}
-        <Route
-          path="/admin/login"
-          element={
-            <ProtectedRoute
-              isLoading={state.getUserLoading}
-              isAuthenticated={isAuthenticated}
-              userRole={state.user?.role}
-              requiredRole="admin"
-            >
-              <AdminLoginPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
+        {/* <Route
           path="/admin/article"
           element={
             <ProtectedRoute
@@ -111,7 +110,8 @@ function App() {
               <AdminArticlePage />
             </ProtectedRoute>
           }
-        />
+        /> */}
+
       </Routes>
     </div>
   );
