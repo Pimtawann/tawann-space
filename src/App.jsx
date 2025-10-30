@@ -29,7 +29,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
+        <Route path="/admin/article" element={<AdminArticlePage />} />
+
         <Route path="*" element={<NotFoundPage />} />
+
 
         <Route
           path="/signup"
@@ -51,6 +54,18 @@ function App() {
               isAuthenticated={isAuthenticated}
             >
               <LoginPage />
+            </AuthenticationRoute>
+          }
+        />
+
+        <Route
+          path="/admin/login"
+          element={
+            <AuthenticationRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+            >
+              <AdminLoginPage />
             </AuthenticationRoute>
           }
         />
@@ -83,19 +98,7 @@ function App() {
         />
 
         {/* admin section */}
-        <Route
-          path="/admin/login"
-          element={
-            <ProtectedRoute
-              isLoading={state.getUserLoading}
-              isAuthenticated={isAuthenticated}
-            >
-              <AdminLoginPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
+        {/* <Route
           path="/admin/article"
           element={
             <ProtectedRoute
@@ -107,7 +110,8 @@ function App() {
               <AdminArticlePage />
             </ProtectedRoute>
           }
-        />
+        /> */}
+
       </Routes>
     </div>
   );
