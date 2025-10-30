@@ -15,6 +15,7 @@ import { useAuth } from "./context/authentication";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AuthenticationRoute from "./components/auth/AuthenticationRoute";
 import SignUpSuccessPage from "./pages/SignUpSuccessPage";
+import AdminCreateArticlePage from "./pages/AdminCreateArticlePage";
 
 jwtInterceptor();
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
         <Route path="/admin/article" element={<AdminArticlePage />} />
+        <Route path="/admin/create-article" element={<AdminCreateArticlePage />} />
 
         <Route path="*" element={<NotFoundPage />} />
 
