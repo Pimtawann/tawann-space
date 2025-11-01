@@ -1,14 +1,17 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, Toaster } from "sonner";
 
 export default function AdminLoginForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const validate = () => {
     const newErrors = {};
@@ -34,15 +37,47 @@ export default function AdminLoginForm() {
     setErrors({ ...errors, [e.target.name]: null }); // เคลียร์ error ขณะพิมพ์
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("✅ Login success:", formData);
+    if (!validate()) return;
+
+    try {
+      const response = await axios.post(
+        "https://tawann-space-db-api.vercel.app/auth/login",
+        formData
+      );
+
+      const { access_token } = response.data;
+      localStorage.setItem("token", access_token);
+
+      const userResp = await axios.get(
+        "https://tawann-space-db-api.vercel.app/auth/get-user",
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+
+      if (userResp.data.role !== "admin") {
+        toast.error("Access denied. This page is for admin only.");
+        return;
+      }
+
+      toast.success("Login successful");
+      navigate("/admin/article");
+    } catch (error) {
+      console.error("Login error:", error.response?.data || error.message);
+      toast.error(
+        error.response?.data?.error ||
+          "Login failed. Please check your credentials."
+      );
     }
   };
 
   return (
     <div className="w-full md:w-160 mx-auto mt-20 md:mt-30 bg-brown-2 p-6 rounded-2xl">
+      <Toaster position="top-right" richColors />
       <p className="text-center text-2xl text-orange font-medium mt-6 mb-3">
         Admin panel
       </p>
@@ -61,29 +96,31 @@ export default function AdminLoginForm() {
             value={formData.email}
             onChange={handleChange}
             className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
-                errors.email ? 'border-red' : 'border-brown-3'
-              } border`}
+              errors.email ? "border-red" : "border-brown-3"
+            } border`}
           />
           {errors.email && (
             <p className="text-red text-sm font-medium mt-1">{errors.email}</p>
           )}
         </div>
         <div>
-        <label htmlFor="password" className="text-brown-4 font-medium">
-          Password
-        </label>
-        <Input
-          placeholder="Password"
-          name="password"
-          type="password"
-          value={formData.password}
+          <label htmlFor="password" className="text-brown-4 font-medium">
+            Password
+          </label>
+          <Input
+            placeholder="Password"
+            name="password"
+            type="password"
+            value={formData.password}
             onChange={handleChange}
             className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
-                errors.password ? 'border-red' : 'border-brown-3'
-              } border`}
-        />
-        {errors.password && (
-            <p className="text-red text-sm font-medium mt-1">{errors.password}</p>
+              errors.password ? "border-red" : "border-brown-3"
+            } border`}
+          />
+          {errors.password && (
+            <p className="text-red text-sm font-medium mt-1">
+              {errors.password}
+            </p>
           )}
         </div>
         <div className="flex justify-center">

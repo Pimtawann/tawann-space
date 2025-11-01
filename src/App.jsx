@@ -30,11 +30,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
-        <Route path="/admin/article" element={<AdminArticlePage />} />
-        <Route path="/admin/create-article" element={<AdminCreateArticlePage />} />
 
         <Route path="*" element={<NotFoundPage />} />
-
 
         <Route
           path="/signup"
@@ -100,7 +97,7 @@ function App() {
         />
 
         {/* admin section */}
-        {/* <Route
+        <Route
           path="/admin/article"
           element={
             <ProtectedRoute
@@ -112,8 +109,21 @@ function App() {
               <AdminArticlePage />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
+        <Route
+          path="/admin/create-article"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminCreateArticlePage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );
