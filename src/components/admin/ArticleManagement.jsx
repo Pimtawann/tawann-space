@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Pencil, Trash2, Search } from "lucide-react";
+import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -7,62 +8,67 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const mockArticles = [
-  {
-    title:
-      "Understanding Cat Behavior: Why Your Feline Friend Acts the Way They Do…",
-    category: "Cat",
-    status: "Published",
-  },
-  {
-    title: "The Fascinating World of Cats: Why We Love Our Furry Friends",
-    category: "Cat",
-    status: "Draft",
-  },
-  {
-    title: "Finding Motivation: How to Stay Inspired Through Life's Challenges",
-    category: "General",
-    status: "Published",
-  },
-  {
-    title:
-      "The Science of the Cat’s Purr: How It Benefits Cats and Humans Alike",
-    category: "Cat",
-    status: "Published",
-  },
-  {
-    title: "Top 10 Health Tips to Keep Your Cat Happy and Healthy",
-    category: "Cat",
-    status: "Draft",
-  },
-  {
-    title: "Unlocking Creativity: Simple Habits to Spark Inspiration Daily",
-    category: "Inspiration",
-    status: "Published",
-  },
-];
+import { LoaderCircle } from "lucide-react";
 
 export default function ArticleManagement() {
+  const [articles, setArticles] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const filteredArticles = mockArticles.filter((article) => {
+  useEffect(() => {
+    const fetchArticles = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          "https://tawann-space-db-api.vercel.app/posts"
+        );
+        const result = response.data.posts || response.data;
+        setArticles(
+          result.map((article) => ({
+            id: article.id,
+            title: article.title,
+            category: article.category,
+            status:
+              article.status.toLowerCase() === "publish"
+                ? "published"
+                : article.status,
+          }))
+        );
+        setError(null);
+      } catch (err) {
+        console.error("Error loading articles:", err);
+        setError("Failed to load articles");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
+  const filteredArticles = articles.filter((article) => {
     const matchTitle = article.title
       .toLowerCase()
       .includes(searchText.toLowerCase());
     const matchStatus =
-      statusFilter && statusFilter !== "all"
-        ? article.status.toLowerCase() === statusFilter
-        : true;
-
+      statusFilter === "all" || article.status.toLowerCase() === statusFilter;
     const matchCategory =
-      categoryFilter && categoryFilter !== "all"
-        ? article.category.toLowerCase() === categoryFilter
-        : true;
+      categoryFilter === "all" ||
+      article.category.toLowerCase() === categoryFilter;
     return matchTitle && matchStatus && matchCategory;
   });
+
+  if (loading)
+    return (
+      <div className="p-6 min-h-screen flex justify-center gap-4">
+        <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
+        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
+      </div>
+    );
+  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
 
   return (
     <div className="px-8">
@@ -93,7 +99,6 @@ export default function ArticleManagement() {
             </SelectContent>
           </Select>
 
-          {/* Category Filter */}
           <Select
             value={categoryFilter}
             onValueChange={(val) => setCategoryFilter(val)}
@@ -130,7 +135,7 @@ export default function ArticleManagement() {
 
               return (
                 <tr
-                  key={i}
+                  key={article.id}
                   className={i % 2 === 0 ? "bg-brown-1" : "bg-brown-2"}
                 >
                   <td className="px-4 py-4 truncate text-brown-6">
