@@ -14,7 +14,10 @@ export default function AdminPanelSidebar() {
   const location = useLocation();
   const { logout } = useAuth();
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (paths) =>
+    Array.isArray(paths)
+      ? paths.some((p) => location.pathname.startsWith(p))
+      : location.pathname.startsWith(paths);
 
   const linkClass = (path) =>
     `flex items-center gap-3 px-4 py-4 ${
@@ -24,7 +27,7 @@ export default function AdminPanelSidebar() {
     }`;
 
   return (
-    <aside className="w-65 h-screen bg-brown-2 border-r border-gray-200 flex flex-col justify-between py-6">
+    <aside className="w-65 min-h-screen bg-brown-2 border-r border-gray-200 flex flex-col justify-between py-6">
       <div>
         {/* Logo & Title */}
         <div className="px-6 mb-8 mt-10">
@@ -38,22 +41,16 @@ export default function AdminPanelSidebar() {
         <nav>
           <Link
             to="/admin/article"
-            className={linkClass("/admin/article")}
+            className={linkClass(["/admin/article", "/admin/create-article"])}
           >
             <FileText className="w-5 h-5" />
             Article management
           </Link>
-          <Link
-            to="/admin/category"
-            className={linkClass("/admin/category")}
-          >
+          <Link to="/admin/category" className={linkClass("/admin/category")}>
             <Folder className="w-5 h-5" />
             Category management
           </Link>
-          <Link
-            to="/admin/profile"
-            className={linkClass("/admin/profile")}
-          >
+          <Link to="/admin/profile" className={linkClass("/admin/profile")}>
             <User className="w-5 h-5" />
             Profile
           </Link>
@@ -86,7 +83,7 @@ export default function AdminPanelSidebar() {
         </Link>
         <button
           className="flex items-center gap-3 px-6 py-4 !text-brown-4 hover:text-brown-6 w-full text-left font-medium hover:bg-brown-3 cursor-pointer border-t border-brown-3"
-          onClick={logout}
+          onClick={ logout }
         >
           <LogOut className="w-5 h-5" />
           Log out
