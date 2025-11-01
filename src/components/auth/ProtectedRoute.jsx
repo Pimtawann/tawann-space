@@ -22,7 +22,12 @@ function ProtectedRoute({
     );
   }
 
-  if (!isAuthenticated || userRole !== requiredRole) {
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // If requiredRole is specified, check if userRole matches
+  if (requiredRole && userRole !== requiredRole) {
     return <Navigate to="/login" replace />;
   }
 

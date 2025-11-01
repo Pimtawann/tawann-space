@@ -46,26 +46,38 @@ export default function AdminNavbar() {
             {isDropdownOpen && (
               <div className="absolute right-0 mt-3 w-60 bg-white rounded-md shadow-xl z-50 overflow-hidden">
                 <button
-                  onClick={() => navigate("/profile")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    navigate("/profile");
+                  }}
                   className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
                 >
                   <User className="w-5 h-5" /> Profile
                 </button>
                 <button
-                  onClick={() => navigate("/reset-password")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    navigate("/reset-password");
+                  }}
                   className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
                 >
                   <RefreshCcw className="w-5 h-5" /> Reset password
                 </button>
                 <button
-                  onClick={() => navigate("/admin/login")}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    navigate("/admin/article");
+                  }}
                   className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
                 >
                   <SquareArrowOutUpRight className="w-5 h-5" /> Admin panel
                 </button>
                 <hr className="border-brown-3" />
                 <button
-                  onClick={logout}
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    logout();
+                  }}
                   className="flex items-center gap-3 w-full px-4 py-3 font-medium hover:bg-brown-2 text-brown-5 cursor-pointer"
                 >
                   <LogOut className="w-5 h-5" /> Log out
@@ -101,26 +113,38 @@ export default function AdminNavbar() {
           </div>
           <div className="space-y-5">
             <button
-              onClick={() => navigate("/profile")}
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate("/profile");
+              }}
               className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
             >
               <User className="w-6 h-6" /> Profile
             </button>
             <button
-              onClick={() => navigate("/reset-password")}
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate("/reset-password");
+              }}
               className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
             >
               <RefreshCcw className="w-6 h-6" /> Reset password
             </button>
             <button
-                  onClick={() => navigate("/admin/login")}
-                  className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
-                >
-                  <SquareArrowOutUpRight className="w-6 h-6" /> Admin panel
-                </button>
+              onClick={() => {
+                setIsMenuOpen(false);
+                navigate("/admin/article");
+              }}
+              className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
+            >
+              <SquareArrowOutUpRight className="w-6 h-6" /> Admin panel
+            </button>
             <hr className="border-brown-3" />
             <button
-              onClick={logout}
+              onClick={() => {
+                setIsMenuOpen(false);
+                logout();
+              }}
               className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
             >
               <LogOut className="w-6 h-6" /> Log out
