@@ -15,6 +15,7 @@ import { useAuth } from "./context/authentication";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AuthenticationRoute from "./components/auth/AuthenticationRoute";
 import SignUpSuccessPage from "./pages/SignUpSuccessPage";
+import AdminCreateArticlePage from "./pages/AdminCreateArticlePage";
 
 jwtInterceptor();
 
@@ -29,10 +30,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
-        <Route path="/admin/article" element={<AdminArticlePage />} />
 
         <Route path="*" element={<NotFoundPage />} />
-
 
         <Route
           path="/signup"
@@ -78,7 +77,6 @@ function App() {
               isLoading={state.getUserLoading}
               isAuthenticated={isAuthenticated}
               userRole={state.user?.role}
-              requiredRole="user"
             >
               <ProfilePage />
             </ProtectedRoute>
@@ -98,7 +96,7 @@ function App() {
         />
 
         {/* admin section */}
-        {/* <Route
+        <Route
           path="/admin/article"
           element={
             <ProtectedRoute
@@ -110,8 +108,21 @@ function App() {
               <AdminArticlePage />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
+        <Route
+          path="/admin/create-article"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminCreateArticlePage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

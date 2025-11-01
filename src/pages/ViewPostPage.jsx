@@ -24,15 +24,35 @@ export default function ViewPostPage() {
     (async () => {
       try {
         setStatus("loading");
+        
+        // Check if postId exists
+        if (!param.postId) {
+          if (!alive.current) return;
+          setStatus("notfound");
+          return;
+        }
+
         const { data } = await axios.get(
-          `https://blog-post-project-api.vercel.app/posts/${param.postId}`
+          `https://tawann-space-db-api.vercel.app/posts/${param.postId}`
         );
+        
         if (!alive.current) return;
-        if (!data || !data.id) return setStatus("notfound");
-        setPost(data);
+        
+        // Handle different API response structures: { data: {...} }, { post: {...} }, or {...}
+        const postData = data?.data || data?.post || data;
+        
+        // Check if postData exists and has a valid id (id can be 0 or any number)
+        if (!postData || (postData.id === undefined || postData.id === null)) {
+          console.error("Post data invalid:", { postData, originalData: data });
+          setStatus("notfound");
+          return;
+        }
+        
+        setPost(postData);
         setStatus("ok");
       } catch (err) {
         if (!alive.current) return;
+        console.error("Error fetching post:", err);
         setStatus(err?.response?.status === 404 ? "notfound" : "error");
       }
     })();
