@@ -9,12 +9,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LoaderCircle } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function ArticleManagement() {
   const [articles, setArticles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,20 +34,29 @@ export default function ArticleManagement() {
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://tawann-space-db-api.vercel.app/posts"
+          "https://tawann-space-db-api.vercel.app/posts",
+          {
+            params: {
+              page: page,
+              limit: 10,
+            },
+          }
         );
         const result = response.data.posts || response.data;
+        const sorted = result.slice().sort((a,b) => b.id - a.id);
         setArticles(
-          result.map((article) => ({
+          sorted.map((article) => ({
             id: article.id,
             title: article.title,
-            category: article.category,
+            categoryRaw: article.category,
+            categoryFilter: article.category?.trim().toLowerCase(),
             status:
               article.status.toLowerCase() === "publish"
                 ? "published"
                 : article.status,
           }))
         );
+        setTotalPages(response.data.totalPages);
         setError(null);
       } catch (err) {
         console.error("Error loading articles:", err);
@@ -47,7 +67,7 @@ export default function ArticleManagement() {
     };
 
     fetchArticles();
-  }, []);
+  }, [page]);
 
   const filteredArticles = articles.filter((article) => {
     const matchTitle = article.title
@@ -56,8 +76,9 @@ export default function ArticleManagement() {
     const matchStatus =
       statusFilter === "all" || article.status.toLowerCase() === statusFilter;
     const matchCategory =
-      categoryFilter === "all" ||
-      article.category.toLowerCase() === categoryFilter;
+      categoryFilter === "all" || article.categoryFilter === categoryFilter;
+    console.log("Category:", article.categoryRaw, "| Filter:", categoryFilter);
+    console.log("API Category:", article.category);
     return matchTitle && matchStatus && matchCategory;
   });
 
@@ -103,7 +124,7 @@ export default function ArticleManagement() {
             value={categoryFilter}
             onValueChange={(val) => setCategoryFilter(val)}
           >
-            <SelectTrigger className="w-[160px] !h-10 border border-brown-3 rounded-md text-brown-4 bg-white">
+            <SelectTrigger className="w-[160px] !h-10 border border-brown-3 rounded-md text-brown-4 bg-white cursor-pointer">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -141,7 +162,7 @@ export default function ArticleManagement() {
                   <td className="px-4 py-4 truncate text-brown-6">
                     {article.title}
                   </td>
-                  <td className="px-4 py-4">{article.category}</td>
+                  <td className="px-4 py-4">{article.categoryRaw}</td>
                   <td className="px-4 py-4">
                     <div className={`flex items-center gap-2 ${statusColor}`}>
                       <span
@@ -173,6 +194,37 @@ export default function ArticleManagement() {
           </p>
         )}
       </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-6">
+          <Pagination>
+            <PaginationContent>
+              {page > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious onClick={() => setPage(page - 1)} className="cursor-pointer" />
+                </PaginationItem>
+              )}
+
+              {Array.from({ length: totalPages }, (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    isActive={page === index + 1}
+                    onClick={() => setPage(index + 1)}
+                    className="cursor-pointer"
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              {page < totalPages && (
+                <PaginationItem>
+                  <PaginationNext onClick={() => setPage(page + 1)} className="cursor-pointer" />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 }

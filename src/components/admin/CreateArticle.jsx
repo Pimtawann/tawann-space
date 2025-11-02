@@ -242,7 +242,7 @@ export default function CreateArticle() {
             <label className="text-brown-4 font-medium">
               Introduction (max 120 letters)
               <span className="text-sm text-gray-400 ml-4">
-                {introduction.length}/120
+                {introduction.replace(/\s/g, "").length}/120
               </span>
             </label>
             <Textarea
