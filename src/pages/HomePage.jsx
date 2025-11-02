@@ -16,7 +16,7 @@ export default function HomePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center gap-4">
-        <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
+        <LoaderCircle className="h-5 w-5 animate-spin" />
         <p className="text-brown-6 text-lg font-semibold">Loading...</p>
       </div>
     );
