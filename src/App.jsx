@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AuthenticationRoute from "./components/auth/AuthenticationRoute";
 import SignUpSuccessPage from "./pages/SignUpSuccessPage";
 import AdminCreateArticlePage from "./pages/AdminCreateArticlePage";
+import { Toaster } from "sonner";
 
 jwtInterceptor();
 
@@ -26,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <ScrollToTop />
+      <Toaster position="bottom-right" richColors />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />

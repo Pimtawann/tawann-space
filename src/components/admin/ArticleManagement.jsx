@@ -12,12 +12,12 @@ import { LoaderCircle } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { toast } from "sonner";
 
 export default function ArticleManagement() {
   const [articles, setArticles] = useState([]);
@@ -29,6 +29,27 @@ export default function ArticleManagement() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //toaster แสดงหลังจาก creteArticle สำเร็จ
+  useEffect(() => {
+    const toastType = sessionStorage.getItem("toastType");
+
+    if (toastType === "draft") {
+      toast.success("Create article and saved as draft", {
+        description: "You can publish article later",
+        duration: Infinity,
+        closeButton: true,
+      });
+    } else if (toastType === "publish") {
+      toast.success("Create article and published", {
+        description: "Your article has been successfully published",
+        duration: Infinity,
+        closeButton: true,
+      });
+    }
+
+    sessionStorage.removeItem("toastType");
+  }, []);
+
   useEffect(() => {
     const fetchArticles = async () => {
       setLoading(true);
@@ -38,12 +59,12 @@ export default function ArticleManagement() {
           {
             params: {
               page: page,
-              limit: 10,
+              limit: 8,
             },
           }
         );
         const result = response.data.posts || response.data;
-        const sorted = result.slice().sort((a,b) => b.id - a.id);
+        const sorted = result.slice().sort((a, b) => b.id - a.id);
         setArticles(
           sorted.map((article) => ({
             id: article.id,
@@ -159,7 +180,9 @@ export default function ArticleManagement() {
                   key={article.id}
                   className={i % 2 === 0 ? "bg-brown-1" : "bg-brown-2"}
                 >
-                  <td className="px-4 py-4 truncate text-brown-6">
+                  <td
+                    className="px-4 py-4 text-brown-6 max-w-[200px] md:max-w-none truncate"
+                  >
                     {article.title}
                   </td>
                   <td className="px-4 py-4">{article.categoryRaw}</td>
@@ -200,7 +223,10 @@ export default function ArticleManagement() {
             <PaginationContent>
               {page > 1 && (
                 <PaginationItem>
-                  <PaginationPrevious onClick={() => setPage(page - 1)} className="cursor-pointer" />
+                  <PaginationPrevious
+                    onClick={() => setPage(page - 1)}
+                    className="cursor-pointer"
+                  />
                 </PaginationItem>
               )}
 
@@ -218,7 +244,10 @@ export default function ArticleManagement() {
 
               {page < totalPages && (
                 <PaginationItem>
-                  <PaginationNext onClick={() => setPage(page + 1)} className="cursor-pointer" />
+                  <PaginationNext
+                    onClick={() => setPage(page + 1)}
+                    className="cursor-pointer"
+                  />
                 </PaginationItem>
               )}
             </PaginationContent>
