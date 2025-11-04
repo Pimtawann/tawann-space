@@ -120,7 +120,7 @@ export default function CreateArticle() {
           withCredentials: true,
         }
       );
-      toast.success("Post created successfully!");
+      sessionStorage.setItem("toastType", statusId === 1 ? "draft" : "publish");
       navigate("/admin/article");
     } catch (error) {
       console.error(
@@ -135,7 +135,6 @@ export default function CreateArticle() {
 
   return (
     <div>
-      <Toaster position="top-right" richColors />
       <div className="flex items-center justify-between px-8 py-4 mb-8 border-b border-brown-3">
         <p className="text-2xl font-semibold text-brown-6">Create article</p>
         <div className="flex gap-3">
