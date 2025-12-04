@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Bell, LogOut, User, RefreshCcw, ChevronDown } from "lucide-react";
 import Avatar from "../Avatar";
 import { useAuth } from "@/context/authentication";
-import userAvatar from "@/assets/user.png";
 
 export default function MemberNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +11,7 @@ export default function MemberNavbar() {
   const { logout, state } = useAuth();
 
   const username = state.user?.username || "User";
-  const avatarUrl = state.user?.profilePic || userAvatar;
+  const avatarUrl = state.user?.profilePic || "";
 
   return (
     <nav className="w-full bg-brown-1 border-b border-brown-3 fixed top-0 left-0 right-0 z-50">
