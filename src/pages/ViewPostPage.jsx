@@ -2,6 +2,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Toaster } from "sonner";
+import { LoaderCircle } from "lucide-react";
 
 import Navbar from "@/components/navbar/PublicNavbar.jsx";
 import Footer from "@/components/Footer";
@@ -24,7 +25,7 @@ export default function ViewPostPage() {
     (async () => {
       try {
         setStatus("loading");
-        
+
         // Check if postId exists
         if (!param.postId) {
           if (!alive.current) return;
@@ -35,19 +36,19 @@ export default function ViewPostPage() {
         const { data } = await axios.get(
           `https://tawann-space-db-api.vercel.app/posts/${param.postId}`
         );
-        
+
         if (!alive.current) return;
-        
+
         // Handle different API response structures: { data: {...} }, { post: {...} }, or {...}
         const postData = data?.data || data?.post || data;
-        
+
         // Check if postData exists and has a valid id (id can be 0 or any number)
-        if (!postData || (postData.id === undefined || postData.id === null)) {
+        if (!postData || postData.id === undefined || postData.id === null) {
           console.error("Post data invalid:", { postData, originalData: data });
           setStatus("notfound");
           return;
         }
-        
+
         setPost(postData);
         setStatus("ok");
       } catch (err) {
@@ -62,7 +63,12 @@ export default function ViewPostPage() {
   }, [param.postId]);
 
   if (status === "loading")
-    return <div className="m-6 text-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center gap-4">
+        <LoaderCircle className="h-5 w-5 animate-spin" />
+        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
+      </div>
+    );
   if (status === "notfound") return <NotFoundPage />;
   if (status === "error")
     return (
