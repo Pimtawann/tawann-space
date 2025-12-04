@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { Toaster } from "sonner";
 import { LoaderCircle } from "lucide-react";
 
 import Navbar from "@/components/navbar/PublicNavbar.jsx";
@@ -95,8 +94,6 @@ export default function ViewPostPage() {
               <CommentBox onSend={(txt) => console.log("send comment;", txt)} />
             </div>
           </div>
-
-          <Toaster position="bottom-right" richColors />
         </div>
       </div>
       <Footer />
