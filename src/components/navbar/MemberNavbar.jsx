@@ -21,7 +21,7 @@ export default function MemberNavbar() {
           onClick={() => navigate("/")}
           className="text-2xl md:text-4xl text-brown-6 flex items-center cursor-pointer"
         >
-          hh<span className="text-green-2 text-2xl md:text-4xl">.</span>
+          Tawann<span className="text-green-2 text-2xl md:text-4xl">.</span>
         </div>
 
         {/* Desktop menu */}
