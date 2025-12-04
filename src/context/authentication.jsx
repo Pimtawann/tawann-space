@@ -62,12 +62,13 @@ function AuthProvider(props) {
             navigate("/");
             await fetchUser();
         } catch (error) {
+            const errorMessage = error.response?.data?.error || "Login failed";
             setState((prevState) => ({
                 ...prevState,
                 loading: false,
-                error: error.response?.data?.error || "Login failed",
+                error: errorMessage,
             }))
-            return { error: error.response?.data?.error || "Login failed"}
+            throw { error: errorMessage };
         }
     };
 
