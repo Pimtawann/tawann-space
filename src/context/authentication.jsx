@@ -76,8 +76,18 @@ function AuthProvider(props) {
         try {
             setState((prevState)=> ({ ...prevState, loading: true, error: null }));
             await axios.post("https://tawann-space-db-api.vercel.app/auth/register", data);
+
+            // Auto login after successful registration
+            const loginResponse = await axios.post("https://tawann-space-db-api.vercel.app/auth/login", {
+                email: data.email,
+                password: data.password
+            });
+            const token = loginResponse.data.access_token;
+            localStorage.setItem("token", token);
+
             setState((prevState) => ({ ...prevState, loading: false, error: null }));
-            navigate("/signup/success");
+            await fetchUser();
+            navigate("/");
         } catch (error) {
             const errorMessage = error.response?.data?.error || "Registration failed";
             setState((prevState) => ({ ...prevState, loading: false, error: errorMessage }));
