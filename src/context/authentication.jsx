@@ -27,7 +27,11 @@ function AuthProvider(props) {
 
         try {
             setState((prevState) => ({ ...prevState, getUserLoading: true }))
-            const response = await axios.get("https://tawann-space-db-api.vercel.app/auth/get-user");
+            const response = await axios.get("https://tawann-space-db-api.vercel.app/auth/get-user", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setState((prevState) => ({
                 ...prevState,
                 user: response.data,
@@ -74,8 +78,9 @@ function AuthProvider(props) {
             setState((prevState) => ({ ...prevState, loading: false, error: null }));
             navigate("/signup/success");
         } catch (error) {
-            setState((prevState) => ({ ...prevState, loading: false, error: error.response?.data?.error || "Registration failed", }));
-            return { error: state.error }
+            const errorMessage = error.response?.data?.error || "Registration failed";
+            setState((prevState) => ({ ...prevState, loading: false, error: errorMessage }));
+            throw { error: errorMessage };
         }
     };
 

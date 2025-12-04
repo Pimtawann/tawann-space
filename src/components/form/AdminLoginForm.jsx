@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 export default function AdminLoginForm() {
   const [formData, setFormData] = useState({
@@ -77,7 +77,6 @@ export default function AdminLoginForm() {
 
   return (
     <div className="w-full md:w-160 mx-auto mt-20 md:mt-30 bg-brown-2 p-6 rounded-2xl">
-      <Toaster position="top-right" richColors />
       <p className="text-center text-2xl text-orange font-medium mt-6 mb-3">
         Admin panel
       </p>

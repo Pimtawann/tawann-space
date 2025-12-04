@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/authentication";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 export default function SignUpForm() {
   const { register } = useAuth();
@@ -52,20 +52,35 @@ export default function SignUpForm() {
     e.preventDefault();
 
     if (validate()) {
-      toast.promise(register(formData), {
-        loading: "Signing up...",
-        success: () => {
-          navigate("/sign-up/success");
-          return "Account created successfully!";
-        },
-        error: (err) => err?.error || "Registration failed",
-      });
+      try {
+        const registerPromise = register(formData);
+
+        toast.promise(registerPromise, {
+          loading: "Signing up...",
+          success: "Account created successfully!",
+          error: (err) => err?.error || "Registration failed",
+        });
+
+        await registerPromise;
+      } catch (error) {
+        console.log("Signup error:", error);
+        const errorMessage = error?.error || "Registration failed";
+
+        // Display error under appropriate field
+        if (errorMessage.toLowerCase().includes("email")) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            email: "Email is already taken, Please try another email."
+          }));
+        } else if (errorMessage.toLowerCase().includes("username")) {
+          setErrors((prevErrors) => ({ ...prevErrors, username: errorMessage }));
+        }
+      }
     }
   };
 
   return (
-    <div className="w-full md:w-160 mx-auto mt-20 md:mt-30 bg-brown-2 p-6 rounded-2xl">
-      <Toaster position="top-right" richColors />
+    <div className="w-full md:w-160 mx-auto my-20 md:my-30 bg-brown-2 p-6 rounded-2xl">
       <h1 className="text-xl font-semibold text-center my-6 text-brown-6">
         Sign up
       </h1>
