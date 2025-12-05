@@ -32,7 +32,7 @@ export default function AdminPanelSidebar() {
         {/* Logo & Title */}
         <div className="px-6 mb-8 mt-10">
           <p className="text-5xl text-brown-6">
-            hh<span className="text-green-2">.</span>
+            Tawann<span className="text-green-2">.</span>
           </p>
           <p className="text-orange text-xl font-semibold mt-1">Admin panel</p>
         </div>

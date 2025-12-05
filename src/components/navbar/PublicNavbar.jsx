@@ -13,7 +13,7 @@ export default function PublicNavbar() {
           onClick={() => navigate("/")}
           className="text-2xl md:text-4xl text-[#26231e] flex items-center cursor-pointer"
         >
-          hh<span className="text-[#12b279] text-2xl md:text-4xl">.</span>
+          Tawann<span className="text-[#12b279] text-2xl md:text-4xl">.</span>
         </div>
         <div className="hidden md:flex gap-3 items-center">
           <button
