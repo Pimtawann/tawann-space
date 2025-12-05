@@ -14,13 +14,20 @@ import { LoaderCircle } from "lucide-react";
 export default function ArticleSection() {
   const categories = ["Highlight", "Cat", "Inspiration", "General"];
   const [category, setCategory] = useState("Highlight");
-  const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]); 
+  const [displayedPosts, setDisplayedPosts] = useState([]); 
+  const [displayCount, setDisplayCount] = useState(6); 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
+    const newCount = displayCount + 6;
+    setDisplayCount(newCount);
+
+    if (newCount > allPosts.length && hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   const fetchPosts = async (category) => {
@@ -29,24 +36,26 @@ export default function ArticleSection() {
     try {
       const params =
         category === "Highlight"
-          ? { page, limit: 6 }
-          : { page, limit: 6, category };
+          ? { page, limit: 20 }
+          : { page, limit: 20, category };
       const response = await axios.get(
         "https://tawann-space-db-api.vercel.app/posts",
         { params }
       );
 
+      // Filter only published posts
+      const publishedPosts = response.data.posts.filter(
+        (post) => post.status.toLowerCase() === "publish"
+      );
+
       if (page === 1) {
-        setPosts(response.data.posts);
+        setAllPosts(publishedPosts);
       } else {
-        setPosts((prevPosts) => [...prevPosts, ...response.data.posts]);
+        setAllPosts((prevPosts) => [...prevPosts, ...publishedPosts]);
       }
 
-      if (response.data.currentPage >= response.data.totalPages) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
+      // Check if there are more pages from backend
+      setHasMore(response.data.currentPage < response.data.totalPages);
     } catch (error) {
       console.log("Error fetching posts:", error);
     } finally {
@@ -57,6 +66,10 @@ export default function ArticleSection() {
   useEffect(() => {
     fetchPosts(category);
   }, [page, category]);
+
+  useEffect(() => {
+    setDisplayedPosts(allPosts.slice(0, displayCount));
+  }, [allPosts, displayCount]);
 
   const formatDate = (isoString) => {
     return new Date(isoString).toLocaleDateString("en-GB", {
@@ -86,7 +99,8 @@ export default function ArticleSection() {
                 onClick={() => {
                   setCategory(item);
                   setPage(1);
-                  setPosts([]);
+                  setAllPosts([]);
+                  setDisplayCount(6);
                   setHasMore(true);
                 }}
               >
@@ -108,7 +122,8 @@ export default function ArticleSection() {
               onValueChange={(value) => {
                 setCategory(value);
                 setPage(1);
-                setPosts([]);
+                setAllPosts([]);
+                setDisplayCount(6);
                 setHasMore(true);
               }}
             >
@@ -132,7 +147,7 @@ export default function ArticleSection() {
         </div>
       </div>
       <article className="grid grid-cols-1 md:grid-cols-2 py-5 gap-10 md:gap-3 mx-6 md:mb-10">
-        {posts.map((post, index) => (
+        {displayedPosts.map((post, index) => (
           <BlogCard
             key={index}
             id={post.id}
@@ -145,7 +160,7 @@ export default function ArticleSection() {
           />
         ))}
       </article>
-      {hasMore && (
+      {(displayCount < allPosts.length || hasMore) && (
         <div className="py-5 text-center flex justify-center items-center gap-3">
     {isLoading && <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />}
           <button

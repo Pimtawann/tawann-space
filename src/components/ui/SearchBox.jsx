@@ -20,11 +20,12 @@ function SearchBox(props) {
     timer.current = setTimeout(async () => {
       const params = { keyword: searchQuery };
       const { data } = await axios.get(
-        "https://blog-post-project-api.vercel.app/posts",
+        "https://tawann-space-db-api.vercel.app/posts",
         { params }
       );
-      const list = (data.posts ?? []).filter(
-        (post, index, allPosts) => allPosts.findIndex((postToCompare) => postToCompare.id === post.id) === index
+      const list = (data.posts ?? [])
+        .filter((post) => post.status.toLowerCase() === "publish")
+        .filter((post, index, allPosts) => allPosts.findIndex((postToCompare) => postToCompare.id === post.id) === index
       )
       setResults(list);
       setOpen(true);
