@@ -18,12 +18,28 @@ export default function ViewPostPage() {
   const param = useParams();
   const { state } = useAuth();
   const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
   const [status, setStatus] = useState("loading");
   const navigate = useNavigate();
   const alive = useRef(true);
 
   const isLoggedIn = !!state.user;
   const isAdmin = state.user?.role === "admin";
+
+  const fetchComments = async (postId) => {
+    try {
+      const { data } = await axios.get(
+        `https://tawann-space-db-api.vercel.app/posts/${postId}/comments`
+      );
+      setComments(data.comments || []);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  const handleCommentAdded = (newComment) => {
+    setComments((prevComments) => [newComment, ...prevComments]);
+  };
 
   useEffect(() => {
     alive.current = true;
@@ -45,7 +61,6 @@ export default function ViewPostPage() {
 
         if (!alive.current) return;
 
-        // Handle different API response structures: { data: {...} }, { post: {...} }, or {...}
         const postData = data?.data || data?.post || data;
 
         // Check if postData exists and has a valid id (id can be 0 or any number)
@@ -57,6 +72,9 @@ export default function ViewPostPage() {
 
         setPost(postData);
         setStatus("ok");
+
+        // Fetch comments after post is loaded
+        await fetchComments(param.postId);
       } catch (err) {
         if (!alive.current) return;
         console.error("Error fetching post:", err);
@@ -98,14 +116,56 @@ export default function ViewPostPage() {
           <div className="mx-auto my-8 max-w-[1200px] pt-3 md:grid md:grid-cols-12 md:gap-8 md:pt-5">
             <div className="md:col-span-8">
               <ShareBar
+                postId={post.id}
                 url={typeof window !== "undefined" ? window.location.href : ""}
                 title={post.title}
-                reactions={post.likes ?? 0}
+                reactions={post.likes_count ?? 0}
               />
             </div>
             <div className="mx-6 md:mx-0 md:col-span-8">
-              <CommentBox onSend={(txt) => console.log("send comment;", txt)} />
+              <CommentBox
+                postId={post.id}
+                onCommentAdded={handleCommentAdded}
+              />
             </div>
+            {comments.length > 0 && (
+              <div className="mx-6 md:mx-0 md:col-span-8">
+                <div className="space-y-4">
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="pb-6 border-b border-brown-3">
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0 mt-1">
+                          {comment.profile_pic ? (
+                            <img
+                              src={comment.profile_pic}
+                              alt={comment.username}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-brown-4 flex items-center justify-center text-white font-semibold">
+                              {comment.username?.[0]?.toUpperCase() || "?"}
+                            </div>
+                          )}
+                        </div>
+                          <div className="flex flex-col mb-4">
+                            <span className="font-semibold text-xl text-brown-5">
+                              {comment.username}
+                            </span>
+                            <span className="text-sm text-brown-4 font-medium">
+                              {new Date(comment.created_at).toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              })}
+                            </span>
+                        </div>
+                      </div>
+                      <p className="text-brown-4 font-medium">{comment.comment_text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
