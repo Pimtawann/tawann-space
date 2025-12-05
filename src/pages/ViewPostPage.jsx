@@ -3,20 +3,27 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { LoaderCircle } from "lucide-react";
 
-import Navbar from "@/components/navbar/PublicNavbar.jsx";
+import PublicNavbar from "@/components/navbar/PublicNavbar.jsx";
+import MemberNavbar from "@/components/navbar/MemberNavbar.jsx";
+import AdminNavbar from "@/components/navbar/AdminNavbar.jsx";
 import Footer from "@/components/Footer";
 import PostSection from "@/components/post/PostSection";
 import ShareBar from "@/components/post/ShareBar";
 import CommentBox from "@/components/post/CommentBox";
 import NotFound from "@/components/NotFound";
 import NotFoundPage from "./NotFoundPage";
+import { useAuth } from "@/context/authentication";
 
 export default function ViewPostPage() {
   const param = useParams();
+  const { state } = useAuth();
   const [post, setPost] = useState(null);
   const [status, setStatus] = useState("loading");
   const navigate = useNavigate();
   const alive = useRef(true);
+
+  const isLoggedIn = !!state.user;
+  const isAdmin = state.user?.role === "admin";
 
   useEffect(() => {
     alive.current = true;
@@ -76,7 +83,13 @@ export default function ViewPostPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      {isAdmin ? (
+        <AdminNavbar />
+      ) : isLoggedIn ? (
+        <MemberNavbar />
+      ) : (
+        <PublicNavbar />
+      )}
       <div className="flex-grow pt-11">
         <div className="max-w-[768px] md:max-w-[1200px] md:px-6 md:mx-auto">
           <div>
