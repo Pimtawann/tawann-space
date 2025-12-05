@@ -129,7 +129,7 @@ export default function ViewPostPage() {
               />
             </div>
             {comments.length > 0 && (
-              <div className="mx-6 md:mx-0 md:col-span-8">
+              <div className="mx-6 mt-8 md:m-0 md:col-span-8">
                 <div className="space-y-4">
                   {comments.map((comment) => (
                     <div key={comment.id} className="pb-6 border-b border-brown-3">
