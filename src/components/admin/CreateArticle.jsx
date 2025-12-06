@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 
 export default function CreateArticle() {
   const navigate = useNavigate();

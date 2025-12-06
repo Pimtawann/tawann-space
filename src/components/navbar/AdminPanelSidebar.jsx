@@ -79,7 +79,7 @@ export default function AdminPanelSidebar() {
           className="flex items-center gap-3 px-6 py-4 !text-brown-4 hover:bg-brown-3"
         >
           <ExternalLink className="w-5 h-5" />
-          hh. website
+          Tawann. website
         </Link>
         <button
           className="flex items-center gap-3 px-6 py-4 !text-brown-4 hover:text-brown-6 w-full text-left font-medium hover:bg-brown-3 cursor-pointer border-t border-brown-3"

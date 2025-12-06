@@ -36,14 +36,12 @@ export default function ArticleManagement() {
     if (toastType === "draft") {
       toast.success("Create article and saved as draft", {
         description: "You can publish article later",
-        duration: Infinity,
-        closeButton: true,
+        duration: 3000,
       });
     } else if (toastType === "publish") {
       toast.success("Create article and published", {
         description: "Your article has been successfully published",
-        duration: Infinity,
-        closeButton: true,
+        duration: 3000,
       });
     }
 
