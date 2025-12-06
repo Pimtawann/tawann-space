@@ -18,6 +18,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { toast } from "sonner";
+import ConfirmDeleteArticleDialog from "@/components/modal/ConfirmDeleteArticleDialog";
 
 export default function ArticleManagement() {
   const [articles, setArticles] = useState([]);
@@ -27,6 +28,7 @@ export default function ArticleManagement() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [articleToDelete, setArticleToDelete] = useState(null);
   const itemsPerPage = 8;
 
   //toaster แสดงหลังจาก creteArticle สำเร็จ
@@ -90,6 +92,35 @@ export default function ArticleManagement() {
   useEffect(() => {
     setPage(1);
   }, [searchText, statusFilter, categoryFilter]);
+
+  const handleDeleteArticle = async () => {
+    if (!articleToDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `https://tawann-space-db-api.vercel.app/posts/${articleToDelete.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Article deleted successfully");
+
+      setArticles((prevArticles) =>
+        prevArticles.filter((article) => article.id !== articleToDelete.id)
+      );
+
+      setArticleToDelete(null);
+    } catch (error) {
+      console.error("Error deleting article:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to delete article"
+      );
+    }
+  };
 
   // Filter articles
   const filteredArticles = articles.filter((article) => {
@@ -207,7 +238,10 @@ export default function ArticleManagement() {
                       <button className="text-brown-5 hover:text-brown-3 cursor-pointer">
                         <Pencil size={16} />
                       </button>
-                      <button className="text-brown-5 hover:text-red-500 cursor-pointer">
+                      <button
+                        onClick={() => setArticleToDelete(article)}
+                        className="text-brown-5 hover:text-red-500 cursor-pointer"
+                      >
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -260,6 +294,13 @@ export default function ArticleManagement() {
           </Pagination>
         </div>
       )}
+
+      <ConfirmDeleteArticleDialog
+        open={!!articleToDelete}
+        onOpenChange={(open) => !open && setArticleToDelete(null)}
+        onConfirm={handleDeleteArticle}
+        articleTitle={articleToDelete?.title || ""}
+      />
     </div>
   );
 }
