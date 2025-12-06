@@ -8,10 +8,10 @@ export default function AdminNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, state } = useAuth();
 
-  const username = "Moodeng ja"; // Mock username
-  const avatarUrl = "https://i.imgur.com/7RL7s5R.png"; // Mock avatar image URL
+  const username = state.user?.username || "User";
+  const avatarUrl = state.user?.profilePic || "";
 
   return (
     <nav className="w-full bg-brown-1 border-b border-brown-3 fixed top-0 left-0 right-0 z-50">
