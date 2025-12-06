@@ -15,6 +15,7 @@ import AdminCreateCategoryPage from "./pages/AdminCreateCategoryPage";
 import AdminEditCategoryPage from "./pages/AdminEditCategoryPage";
 import AdminProfilePage from "./pages/AdminProfilePage";
 import AdminResetPasswordPage from "./pages/AdminResetPasswordPage";
+import AdminNotificationPage from "./pages/AdminNotificationPage";
 import jwtInterceptor from "./utils/jwtInterceptor";
 import { useAuth } from "./context/authentication";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -210,6 +211,20 @@ function App() {
               requiredRole="admin"
             >
               <AdminResetPasswordPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/notification"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminNotificationPage />
             </ProtectedRoute>
           }
         />
