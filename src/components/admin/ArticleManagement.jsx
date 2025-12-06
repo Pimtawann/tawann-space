@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Pencil, Trash2, Search } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -18,16 +19,19 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { toast } from "sonner";
+import ConfirmDeleteArticleDialog from "@/components/modal/ConfirmDeleteArticleDialog";
 
 export default function ArticleManagement() {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [articleToDelete, setArticleToDelete] = useState(null);
+  const itemsPerPage = 8;
 
   //toaster แสดงหลังจาก creteArticle สำเร็จ
   useEffect(() => {
@@ -36,14 +40,12 @@ export default function ArticleManagement() {
     if (toastType === "draft") {
       toast.success("Create article and saved as draft", {
         description: "You can publish article later",
-        duration: Infinity,
-        closeButton: true,
+        duration: 3000,
       });
     } else if (toastType === "publish") {
       toast.success("Create article and published", {
         description: "Your article has been successfully published",
-        duration: Infinity,
-        closeButton: true,
+        duration: 3000,
       });
     }
 
@@ -58,8 +60,8 @@ export default function ArticleManagement() {
           "https://tawann-space-db-api.vercel.app/posts",
           {
             params: {
-              page: page,
-              limit: 8,
+              page: 1,
+              limit: 100,
             },
           }
         );
@@ -77,7 +79,6 @@ export default function ArticleManagement() {
                 : article.status,
           }))
         );
-        setTotalPages(response.data.totalPages);
         setError(null);
       } catch (err) {
         console.error("Error loading articles:", err);
@@ -88,8 +89,42 @@ export default function ArticleManagement() {
     };
 
     fetchArticles();
-  }, [page]);
+  }, []);
 
+  useEffect(() => {
+    setPage(1);
+  }, [searchText, statusFilter, categoryFilter]);
+
+  const handleDeleteArticle = async () => {
+    if (!articleToDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `https://tawann-space-db-api.vercel.app/posts/${articleToDelete.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Article deleted successfully");
+
+      setArticles((prevArticles) =>
+        prevArticles.filter((article) => article.id !== articleToDelete.id)
+      );
+
+      setArticleToDelete(null);
+    } catch (error) {
+      console.error("Error deleting article:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to delete article"
+      );
+    }
+  };
+
+  // Filter articles
   const filteredArticles = articles.filter((article) => {
     const matchTitle = article.title
       .toLowerCase()
@@ -98,10 +133,14 @@ export default function ArticleManagement() {
       statusFilter === "all" || article.status.toLowerCase() === statusFilter;
     const matchCategory =
       categoryFilter === "all" || article.categoryFilter === categoryFilter;
-    console.log("Category:", article.categoryRaw, "| Filter:", categoryFilter);
-    console.log("API Category:", article.category);
     return matchTitle && matchStatus && matchCategory;
   });
+
+  // Paginate filtered articles
+  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedArticles = filteredArticles.slice(startIndex, endIndex);
 
   if (loading)
     return (
@@ -170,7 +209,7 @@ export default function ArticleManagement() {
             </tr>
           </thead>
           <tbody>
-            {filteredArticles.map((article, i) => {
+            {paginatedArticles.map((article, i) => {
               const isPublished = article.status.toLowerCase() === "published";
               const statusColor = isPublished ? "text-green-2" : "text-brown-4";
               const dotColor = isPublished ? "bg-green-2" : "bg-brown-4";
@@ -198,10 +237,16 @@ export default function ArticleManagement() {
                   </td>
                   <td className="px-4 py-3 text-center">
                     <div className="flex justify-center gap-3">
-                      <button className="text-brown-5 hover:text-brown-3 cursor-pointer">
+                      <button
+                        onClick={() => navigate(`/admin/edit-article/${article.id}`)}
+                        className="text-brown-5 hover:text-brown-3 cursor-pointer"
+                      >
                         <Pencil size={16} />
                       </button>
-                      <button className="text-brown-5 hover:text-red-500 cursor-pointer">
+                      <button
+                        onClick={() => setArticleToDelete(article)}
+                        className="text-brown-5 hover:text-red-500 cursor-pointer"
+                      >
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -211,7 +256,7 @@ export default function ArticleManagement() {
             })}
           </tbody>
         </table>
-        {filteredArticles.length === 0 && (
+        {paginatedArticles.length === 0 && (
           <p className="text-center py-4 text-brown-4 font-medium">
             No articles found
           </p>
@@ -254,6 +299,13 @@ export default function ArticleManagement() {
           </Pagination>
         </div>
       )}
+
+      <ConfirmDeleteArticleDialog
+        open={!!articleToDelete}
+        onOpenChange={(open) => !open && setArticleToDelete(null)}
+        onConfirm={handleDeleteArticle}
+        articleTitle={articleToDelete?.title || ""}
+      />
     </div>
   );
 }
