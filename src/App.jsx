@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AuthenticationRoute from "./components/auth/AuthenticationRoute";
 import SignUpSuccessPage from "./pages/SignUpSuccessPage";
 import AdminCreateArticlePage from "./pages/AdminCreateArticlePage";
+import AdminEditArticlePage from "./pages/AdminEditArticlePage";
 import { Toaster } from "sonner";
 
 jwtInterceptor();
@@ -122,6 +123,20 @@ function App() {
               requiredRole="admin"
             >
               <AdminCreateArticlePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/edit-article/:postId"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminEditArticlePage />
             </ProtectedRoute>
           }
         />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Pencil, Trash2, Search } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -21,6 +22,7 @@ import { toast } from "sonner";
 import ConfirmDeleteArticleDialog from "@/components/modal/ConfirmDeleteArticleDialog";
 
 export default function ArticleManagement() {
+  const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -235,7 +237,10 @@ export default function ArticleManagement() {
                   </td>
                   <td className="px-4 py-3 text-center">
                     <div className="flex justify-center gap-3">
-                      <button className="text-brown-5 hover:text-brown-3 cursor-pointer">
+                      <button
+                        onClick={() => navigate(`/admin/edit-article/${article.id}`)}
+                        className="text-brown-5 hover:text-brown-3 cursor-pointer"
+                      >
                         <Pencil size={16} />
                       </button>
                       <button
