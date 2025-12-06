@@ -14,13 +14,14 @@ export default function ConfirmDeleteArticleDialog({
   onOpenChange,
   onConfirm,
   articleTitle,
+  title = "Delete Article",
 }) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-brown-6 text-center my-4 text-2xl">
-            Delete Article
+            {title}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-brown-4 text-center text-lg mb-4 font-medium">
             Are you sure you want to delete <p className="text-brown-6">"{articleTitle}"?</p>

@@ -10,6 +10,9 @@ import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminArticlePage from "./pages/AdminArticlePage";
+import AdminCategoryPage from "./pages/AdminCategoryPage";
+import AdminCreateCategoryPage from "./pages/AdminCreateCategoryPage";
+import AdminEditCategoryPage from "./pages/AdminEditCategoryPage";
 import jwtInterceptor from "./utils/jwtInterceptor";
 import { useAuth } from "./context/authentication";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -137,6 +140,48 @@ function App() {
               requiredRole="admin"
             >
               <AdminEditArticlePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/category"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminCategoryPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/create-category"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminCreateCategoryPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/edit-category/:categoryId"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminEditCategoryPage />
             </ProtectedRoute>
           }
         />
