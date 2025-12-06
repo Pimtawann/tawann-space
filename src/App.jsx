@@ -13,6 +13,8 @@ import AdminArticlePage from "./pages/AdminArticlePage";
 import AdminCategoryPage from "./pages/AdminCategoryPage";
 import AdminCreateCategoryPage from "./pages/AdminCreateCategoryPage";
 import AdminEditCategoryPage from "./pages/AdminEditCategoryPage";
+import AdminProfilePage from "./pages/AdminProfilePage";
+import AdminResetPasswordPage from "./pages/AdminResetPasswordPage";
 import jwtInterceptor from "./utils/jwtInterceptor";
 import { useAuth } from "./context/authentication";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -36,8 +38,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post/:postId" element={<ViewPostPage />} />
         <Route path="/signup/success" element={<SignUpSuccessPage />} />
-
-        <Route path="*" element={<NotFoundPage />} />
 
         <Route
           path="/signup"
@@ -185,6 +185,36 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/admin/profile"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/reset-password"
+          element={
+            <ProtectedRoute
+              isLoading={state.getUserLoading}
+              isAuthenticated={isAuthenticated}
+              userRole={state.user?.role}
+              requiredRole="admin"
+            >
+              <AdminResetPasswordPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
