@@ -25,9 +25,9 @@ export default function ArticleManagement() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const itemsPerPage = 8;
 
   //toaster แสดงหลังจาก creteArticle สำเร็จ
   useEffect(() => {
@@ -56,8 +56,8 @@ export default function ArticleManagement() {
           "https://tawann-space-db-api.vercel.app/posts",
           {
             params: {
-              page: page,
-              limit: 8,
+              page: 1,
+              limit: 100,
             },
           }
         );
@@ -75,7 +75,6 @@ export default function ArticleManagement() {
                 : article.status,
           }))
         );
-        setTotalPages(response.data.totalPages);
         setError(null);
       } catch (err) {
         console.error("Error loading articles:", err);
@@ -86,8 +85,13 @@ export default function ArticleManagement() {
     };
 
     fetchArticles();
-  }, [page]);
+  }, []);
 
+  useEffect(() => {
+    setPage(1);
+  }, [searchText, statusFilter, categoryFilter]);
+
+  // Filter articles
   const filteredArticles = articles.filter((article) => {
     const matchTitle = article.title
       .toLowerCase()
@@ -96,10 +100,14 @@ export default function ArticleManagement() {
       statusFilter === "all" || article.status.toLowerCase() === statusFilter;
     const matchCategory =
       categoryFilter === "all" || article.categoryFilter === categoryFilter;
-    console.log("Category:", article.categoryRaw, "| Filter:", categoryFilter);
-    console.log("API Category:", article.category);
     return matchTitle && matchStatus && matchCategory;
   });
+
+  // Paginate filtered articles
+  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedArticles = filteredArticles.slice(startIndex, endIndex);
 
   if (loading)
     return (
@@ -168,7 +176,7 @@ export default function ArticleManagement() {
             </tr>
           </thead>
           <tbody>
-            {filteredArticles.map((article, i) => {
+            {paginatedArticles.map((article, i) => {
               const isPublished = article.status.toLowerCase() === "published";
               const statusColor = isPublished ? "text-green-2" : "text-brown-4";
               const dotColor = isPublished ? "bg-green-2" : "bg-brown-4";
@@ -209,7 +217,7 @@ export default function ArticleManagement() {
             })}
           </tbody>
         </table>
-        {filteredArticles.length === 0 && (
+        {paginatedArticles.length === 0 && (
           <p className="text-center py-4 text-brown-4 font-medium">
             No articles found
           </p>
