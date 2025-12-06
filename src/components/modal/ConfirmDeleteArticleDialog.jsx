@@ -22,9 +22,8 @@ export default function ConfirmDeleteArticleDialog({
           <AlertDialogTitle className="text-brown-6 text-center my-4 text-2xl">
             Delete Article
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-brown-4 text-center text-lg mb-4">
-            Are you sure you want to delete "{articleTitle}"?
-            <br />
+          <AlertDialogDescription className="text-brown-4 text-center text-lg mb-4 font-medium">
+            Are you sure you want to delete <p className="text-brown-6">"{articleTitle}"?</p>
             This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
