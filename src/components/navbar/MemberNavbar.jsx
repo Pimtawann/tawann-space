@@ -25,12 +25,7 @@ export default function MemberNavbar() {
         </div>
 
         {/* Desktop menu */}
-        <div className="hidden md:flex items-center gap-3">
-          <button className="relative flex items-center justify-center bg-white rounded-full w-12 h-12 border border-brown-2 cursor-pointer">
-            <Bell className="w-5 h-5 text-brown-5" />
-            <span className="absolute top-1 right-0 w-2 h-2 bg-red-500 rounded-full" />
-          </button>
-
+        <div className="hidden md:flex items-center">
           <div className="relative">
             <button
               className="flex items-center gap-2"
@@ -85,12 +80,6 @@ export default function MemberNavbar() {
             <div className="flex items-center gap-3">
             <Avatar src={avatarUrl} name={username} size={44} />
             <span className="font-medium text-brown-5">{username}</span>
-            </div>
-            <div>
-              <button className="relative flex items-center justify-center bg-white rounded-full w-12 h-12 border border-brown-2 cursor-pointer hover:bg-brown-2">
-                <Bell className="w-5 h-5 text-brown-5" />
-                <span className="absolute top-1 right-0 w-2 h-2 bg-red rounded-full" />
-              </button>
             </div>
           </div>
           <div className="space-y-5">
