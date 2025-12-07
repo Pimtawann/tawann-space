@@ -3,11 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/authentication";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function LoginForm() {
-  const navigate = useNavigate();
   const { login, state } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
@@ -41,18 +39,19 @@ export default function LoginForm() {
     console.log("validationErrors:", validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      const result = await toast.promise(login(formData), {
-        loading: "Logging in...",
-        success: "Logged in successfully",
-        error: (err) => err?.error || "Login failed",
-      });
-  
+      try {
+        const loginPromise = login(formData);
 
-      if (result?.error) {
-        setLoginError("Please check your email and password and try again.");
-      } else {
+        toast.promise(loginPromise, {
+          loading: "Logging in...",
+          success: "Logged in successfully",
+          error: (err) => err?.error || "Login failed",
+        });
+
+        await loginPromise;
         setLoginError(null);
-        navigate("/");
+      } catch (error) {
+        setLoginError("Please check your email and password and try again.");
       }
     }
   };

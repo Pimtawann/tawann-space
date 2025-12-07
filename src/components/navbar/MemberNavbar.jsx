@@ -8,10 +8,10 @@ export default function MemberNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, state } = useAuth();
 
-  const username = "Moodeng ja"; // Mock username
-  const avatarUrl = "https://i.imgur.com/7RL7s5R.png"; // Mock avatar image URL
+  const username = state.user?.username || "User";
+  const avatarUrl = state.user?.profilePic || "";
 
   return (
     <nav className="w-full bg-brown-1 border-b border-brown-3 fixed top-0 left-0 right-0 z-50">
@@ -21,16 +21,11 @@ export default function MemberNavbar() {
           onClick={() => navigate("/")}
           className="text-2xl md:text-4xl text-brown-6 flex items-center cursor-pointer"
         >
-          hh<span className="text-green-2 text-2xl md:text-4xl">.</span>
+          Tawann<span className="text-green-2 text-2xl md:text-4xl">.</span>
         </div>
 
         {/* Desktop menu */}
-        <div className="hidden md:flex items-center gap-3">
-          <button className="relative flex items-center justify-center bg-white rounded-full w-12 h-12 border border-brown-2 cursor-pointer">
-            <Bell className="w-5 h-5 text-brown-5" />
-            <span className="absolute top-1 right-0 w-2 h-2 bg-red-500 rounded-full" />
-          </button>
-
+        <div className="hidden md:flex items-center">
           <div className="relative">
             <button
               className="flex items-center gap-2"
@@ -85,12 +80,6 @@ export default function MemberNavbar() {
             <div className="flex items-center gap-3">
             <Avatar src={avatarUrl} name={username} size={44} />
             <span className="font-medium text-brown-5">{username}</span>
-            </div>
-            <div>
-              <button className="relative flex items-center justify-center bg-white rounded-full w-12 h-12 border border-brown-2 cursor-pointer hover:bg-brown-2">
-                <Bell className="w-5 h-5 text-brown-5" />
-                <span className="absolute top-1 right-0 w-2 h-2 bg-red rounded-full" />
-              </button>
             </div>
           </div>
           <div className="space-y-5">

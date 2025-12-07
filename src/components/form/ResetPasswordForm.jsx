@@ -2,16 +2,16 @@ import { useState } from "react";
 import Avatar from "@/components/Avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import moodengImg from "@/assets/Moodeng.jpg";
 import { useNavigate } from "react-router-dom";
 import { User, RefreshCcw } from "lucide-react";
+import { useAuth } from "@/context/authentication";
+import axios from "axios";
+import { toast } from "sonner";
+import ConfirmResetPasswordDialog from "@/components/modal/ConfirmResetPasswordDialog";
 
 export default function ResetPasswordForm() {
   const navigate = useNavigate();
-  const [user] = useState({
-    name: "Moodeng ja",
-    avatar: moodengImg,
-  });
+  const { state } = useAuth();
 
   const [formData, setFormData] = useState({
     currentPassword: "",
@@ -19,18 +19,24 @@ export default function ResetPasswordForm() {
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: null });
   };
 
-  const [errors, setErrors] = useState({});
-
   const validate = () => {
     const newErrors = {};
 
+    if (!formData.currentPassword.trim()) {
+      newErrors.currentPassword = "Please enter your current password";
+    }
+
     if (!formData.newPassword.trim()) {
-      newErrors.newPassword = "Please enter your New Password";
+      newErrors.newPassword = "Please enter your new password";
     } else if (formData.newPassword.length < 6) {
       newErrors.newPassword = "Password must be at least 6 characters";
     }
@@ -40,8 +46,8 @@ export default function ResetPasswordForm() {
     } else if (formData.confirmPassword !== formData.newPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     } else if (formData.confirmPassword.length < 6) {
-        newErrors.confirmPassword = "Password must be at least 6 characters";
-      }
+      newErrors.confirmPassword = "Password must be at least 6 characters";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -50,8 +56,55 @@ export default function ResetPasswordForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log("✅ success:", formData);
-      // TODO: ส่งไป API ภายหลัง
+      setShowConfirmDialog(true);
+    }
+  };
+
+  const handleConfirmReset = async () => {
+    setShowConfirmDialog(false);
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to reset password");
+        return;
+      }
+
+      await axios.put(
+        "https://tawann-space-db-api.vercel.app/auth/reset-password",
+        {
+          oldPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Password reset successfully!");
+      setFormData({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error("Reset password error:", error);
+      const errorMessage = error.response?.data?.error || "Failed to reset password";
+      toast.error(errorMessage);
+
+      // Show error under current password field if it's incorrect
+      if (errorMessage.toLowerCase().includes("password") &&
+          (errorMessage.toLowerCase().includes("incorrect") ||
+           errorMessage.toLowerCase().includes("wrong") ||
+           errorMessage.toLowerCase().includes("invalid") ||
+           errorMessage.toLowerCase().includes("old"))) {
+        setErrors({ currentPassword: errorMessage });
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,8 +122,8 @@ export default function ResetPasswordForm() {
         </button>
       </div>
       <div className="flex items-center gap-3 mb-6 px-6 md:px-0">
-        <Avatar src={user.avatar} name={user.name} className="md:w-12 md:h-12" />
-        <span className="font-semibold text-xl text-brown-4">{user.name}</span>
+        <Avatar src={state.user?.profilePic} name={state.user?.username || "User"} className="md:w-12 md:h-12" />
+        <span className="font-semibold text-xl text-brown-4">{state.user?.username || "User"}</span>
         <span className="text-brown-3 text-xl">|</span>
         <span className="text-xl font-semibold text-brown-6">
           Reset password
@@ -100,8 +153,13 @@ export default function ResetPasswordForm() {
               value={formData.currentPassword}
               onChange={handleChange}
               placeholder="Current password"
-              className="bg-white h-12 border border-brown-3 text-brown-5 placeholder:text-brown-4 placeholder:font-medium"
+              className={`bg-white h-12 text-brown-5 placeholder:text-brown-4 placeholder:font-medium ${
+                errors.currentPassword ? "border-red" : "border-brown-3"
+              } border`}
             />
+            <p className={`text-red text-sm font-medium mt-1 h-2 ${errors.currentPassword ? "visible" : "invisible"}`}>
+              {errors.currentPassword || "\u00A0"}
+            </p>
           </div>
 
           <div>
@@ -118,11 +176,9 @@ export default function ResetPasswordForm() {
                 errors.newPassword ? "border-red" : "border-brown-3"
               } border`}
             />
-            {errors.newPassword && (
-              <p className="text-red text-sm font-medium mt-1">
-                {errors.newPassword}
-              </p>
-            )}
+            <p className={`text-red text-sm font-medium mt-1 h-2 ${errors.newPassword ? "visible" : "invisible"}`}>
+              {errors.newPassword || "\u00A0"}
+            </p>
           </div>
 
           <div>
@@ -139,20 +195,28 @@ export default function ResetPasswordForm() {
                 errors.confirmPassword ? "border-red" : "border-brown-3"
               } border`}
             />
-            {errors.confirmPassword && (
-              <p className="text-red text-sm font-medium mt-1">
-                {errors.confirmPassword}
-              </p>
-            )}
+            <p className={`text-red text-sm font-medium mt-1 h-2 ${errors.confirmPassword ? "visible" : "invisible"}`}>
+              {errors.confirmPassword || "\u00A0"}
+            </p>
           </div>
 
           <div className="mt-4 flex justify-start">
-            <Button className="rounded-full bg-brown-6 text-white font-medium px-8 py-6 hover:bg-brown-4 cursor-pointer">
-              Reset password
+            <Button
+              type="submit"
+              disabled={loading}
+              className="rounded-full bg-brown-6 text-white font-medium px-8 py-6 hover:bg-brown-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Resetting..." : "Reset password"}
             </Button>
           </div>
         </form>
       </div>
+
+      <ConfirmResetPasswordDialog
+        open={showConfirmDialog}
+        onOpenChange={setShowConfirmDialog}
+        onConfirm={handleConfirmReset}
+      />
     </div>
   );
 }

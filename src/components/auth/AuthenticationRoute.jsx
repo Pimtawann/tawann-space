@@ -1,19 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Navigate } from "react-router-dom";
-import { LoaderCircle } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 
 function AuthenticationRoute({ isLoading, isAuthenticated, children }) {
   if (isLoading === null || isLoading) {
-    return (
-      <div className="flex flex-col min-h-screen">
-        <div className="min-h-screen md:p-8">
-          <div className="min-h-screen flex items-center justify-center gap-4">
-            <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
-            <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (isAuthenticated) {

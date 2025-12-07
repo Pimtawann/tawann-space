@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Image } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,20 +12,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import ConfirmDeleteArticleDialog from "@/components/modal/ConfirmDeleteArticleDialog";
+import { Trash2 } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 
-export default function CreateArticle() {
+export default function EditArticle() {
   const navigate = useNavigate();
+  const { postId } = useParams();
   const [post, setPost] = useState({
     title: "",
     description: "",
     content: "",
     category_id: null,
     status_id: null,
+    image: "",
   });
   const [imageFile, setImageFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [introduction, setIntroduction] = useState("");
   const [categories, setCategories] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -41,6 +48,41 @@ export default function CreateArticle() {
     };
     fetchCategory();
   }, []);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        setIsFetching(true);
+        const response = await axios.get(
+          `https://tawann-space-db-api.vercel.app/posts/${postId}`
+        );
+        const postData = response.data.data;
+
+        console.log("Fetched post data:", postData);
+        console.log("Category ID type:", typeof postData.category_id, postData.category_id);
+
+        setPost({
+          title: postData.title || "",
+          description: postData.description || "",
+          content: postData.content || "",
+          category_id: Number(postData.category_id),
+          status_id: Number(postData.status_id),
+          image: postData.image || "",
+        });
+        setIntroduction(postData.description || "");
+      } catch (error) {
+        console.error("Failed to fetch post:", error);
+        toast.error("Failed to load article");
+        navigate("/admin/article");
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    if (postId) {
+      fetchPost();
+    }
+  }, [postId, navigate]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -68,11 +110,6 @@ export default function CreateArticle() {
   };
 
   const handleSave = async (statusId) => {
-    if (!imageFile) {
-      toast.error("Please select an image file.");
-      return;
-    }
-
     if (!post.title || post.title.trim() === "") {
       toast.error("Please enter a title.");
       return;
@@ -102,15 +139,20 @@ export default function CreateArticle() {
     formData.append("description", post.description);
     formData.append("content", post.content);
     formData.append("status_id", Number(statusId));
-    formData.append("imageFile", imageFile.file);
+
+    if (imageFile) {
+      formData.append("imageFile", imageFile.file);
+    } else {
+      formData.append("image", post.image);
+    }
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("Token missing");
       }
-      const response = await axios.post(
-        `https://tawann-space-db-api.vercel.app/posts`,
+      await axios.put(
+        `https://tawann-space-db-api.vercel.app/posts/${postId}`,
         formData,
         {
           headers: {
@@ -121,22 +163,53 @@ export default function CreateArticle() {
         }
       );
       sessionStorage.setItem("toastType", statusId === 1 ? "draft" : "publish");
+      toast.success("Article updated successfully");
       navigate("/admin/article");
     } catch (error) {
       console.error(
-        "Error creating post:",
+        "Error updating post:",
         error.response?.data || error.message
       );
-      toast.error("Failed to create post. Please try again.");
+      toast.error("Failed to update post. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token missing");
+      }
+
+      await axios.delete(
+        `https://tawann-space-db-api.vercel.app/posts/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Article deleted successfully");
+      navigate("/admin/article");
+    } catch (error) {
+      console.error("Error deleting article:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to delete article"
+      );
+    }
+  };
+
+  if (isFetching) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between px-8 py-4 mb-8 border-b border-brown-3">
-        <p className="text-2xl font-semibold text-brown-6">Create article</p>
+        <p className="text-2xl font-semibold text-brown-6">Edit article</p>
         <div className="flex gap-3">
           <button
             type="button"
@@ -150,9 +223,9 @@ export default function CreateArticle() {
             type="button"
             onClick={() => handleSave(2)}
             disabled={isLoading}
-            className="flex gap-2 bg-brown-6 text-white font-medium px-7 py-3 rounded-full hover:bg-brown-4 cursor-pointer"
+            className="flex gap-2 bg-brown-6 text-white font-medium px-12 py-3 rounded-full hover:bg-brown-4 cursor-pointer"
           >
-            {isLoading ? "Publishing..." : "Save and publish"}
+            {isLoading ? "Saving..." : "Save"}
           </button>
         </div>
       </div>
@@ -166,6 +239,12 @@ export default function CreateArticle() {
                 <img
                   src={URL.createObjectURL(imageFile.file)}
                   alt="Preview"
+                  className="rounded-md object-cover max-w-lg h-80"
+                />
+              ) : post.image ? (
+                <img
+                  src={post.image}
+                  alt="Current thumbnail"
                   className="rounded-md object-cover max-w-lg h-80"
                 />
               ) : (
@@ -198,7 +277,9 @@ export default function CreateArticle() {
             <div className="flex-1 max-w-lg">
               <label className="text-brown-4 font-medium">Category</label>
               <Select
-                onValueChange={(val) => setPost({ ...post, category_id: val })}
+                key={post.category_id || "no-category"}
+                value={post.category_id ? String(post.category_id) : undefined}
+                onValueChange={(val) => setPost({ ...post, category_id: Number(val) })}
               >
                 <SelectTrigger className="w-full mt-1 bg-white !h-10 !text-brown-4 font-medium border-brown-3 cursor-pointer">
                   <SelectValue placeholder="Select category" />
@@ -265,8 +346,25 @@ export default function CreateArticle() {
               className="w-full break-words whitespace-pre-wrap bg-white mt-1 h-80 border-brown-3 placeholder:text-brown-4 placeholder:font-medium"
             />
           </div>
+
+          <div className="mt-6 flex items-center gap-2 text-red">
+          <Trash2 size={16} />
+            <p
+              onClick={() => setShowDeleteModal(true)}
+              className="hover:underline cursor-pointer font-medium"
+            >
+              Delete article
+            </p>
+          </div>
         </form>
       </div>
+
+      <ConfirmDeleteArticleDialog
+        open={showDeleteModal}
+        onOpenChange={setShowDeleteModal}
+        onConfirm={handleDelete}
+        articleTitle={post.title}
+      />
     </div>
   );
 }

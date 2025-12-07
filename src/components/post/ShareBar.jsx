@@ -8,6 +8,7 @@ export default function ShareBar(props) {
       <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
         <div className="relative w-full">
           <ReactionPill
+            postId={props.postId}
             initial={props.reactions ?? 0}
             className="mx-auto w-full max-w-[360px] justify-center"
           />
