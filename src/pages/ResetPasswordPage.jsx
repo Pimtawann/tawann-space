@@ -2,7 +2,7 @@ import MemberNavbar from "@/components/navbar/MemberNavbar";
 import ResetPasswordForm from "@/components/form/ResetPasswordForm";
 import AdminNavbar from "@/components/navbar/AdminNavbar";
 import { useAuth } from "@/context/authentication";
-import { LoaderCircle } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 
 export default function ResetPasswordPage() {
   const { state } = useAuth();
@@ -11,12 +11,7 @@ export default function ResetPasswordPage() {
   const isAdmin = state.user?.role === "admin";
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center gap-4">
-        <LoaderCircle className="h-5 w-5 animate-spin" />
-        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

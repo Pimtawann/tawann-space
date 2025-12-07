@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Pencil, Trash2, Search } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LoaderCircle } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 import {
   Pagination,
   PaginationContent,
@@ -88,13 +88,7 @@ export default function CategoryManagement() {
   const endIndex = startIndex + itemsPerPage;
   const paginatedCategories = filteredCategories.slice(startIndex, endIndex);
 
-  if (loading)
-    return (
-      <div className="p-6 min-h-screen flex justify-center gap-4">
-        <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
-        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-      </div>
-    );
+  if (loading) return <Loading />;
   if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
 
   return (

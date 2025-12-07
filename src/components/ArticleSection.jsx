@@ -9,7 +9,7 @@ import BlogCard from "./BlogCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchBox from "./ui/SearchBox";
-import { LoaderCircle } from "lucide-react";
+import { DotLoader } from "react-spinners";
 
 export default function ArticleSection() {
   const categories = ["Highlight", "Cat", "Inspiration", "General"];
@@ -162,7 +162,7 @@ export default function ArticleSection() {
       </article>
       {(displayCount < allPosts.length || hasMore) && (
         <div className="py-5 text-center flex justify-center items-center gap-3">
-    {isLoading && <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />}
+          {isLoading && <DotLoader color="#957341" size={30} />}
           <button
             onClick={handleLoadMore}
             className={`font-medium text-brown-6 ${!isLoading ? "hover:text-brown-4" : ""} ${!isLoading ? "underline" : ""} cursor-pointer`}
