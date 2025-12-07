@@ -163,14 +163,14 @@ export default function AdminNavbar() {
 
           <div className="relative">
             <button
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <Avatar src={avatarUrl} name={username} className="!w-11 !h-11"/>
-              <span className="text-brown-5 font-medium text-base cursor-pointer">
+              <span className="text-brown-5 font-medium text-base">
                 {username}
               </span>
-              <ChevronDown className="w-5 h-5 text-brown-4 cursor-pointer" />
+              <ChevronDown className="w-5 h-5 text-brown-4" />
             </button>
 
             {isDropdownOpen && (
