@@ -156,6 +156,9 @@ export default function ViewPostPage() {
                                 day: "numeric",
                                 month: "short",
                                 year: "numeric",
+                              })} at {new Date(comment.created_at).toLocaleTimeString("en-GB", {
+                                hour: "2-digit",
+                                minute: "2-digit",
                               })}
                             </span>
                         </div>
