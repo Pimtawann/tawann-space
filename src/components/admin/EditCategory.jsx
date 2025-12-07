@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 
 export default function EditCategory() {
   const navigate = useNavigate();
@@ -79,12 +79,7 @@ export default function EditCategory() {
   };
 
   if (isFetching) {
-    return (
-      <div className="flex gap-4 items-center justify-center min-h-screen">
-        <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
-        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

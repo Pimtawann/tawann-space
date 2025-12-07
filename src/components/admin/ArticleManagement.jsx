@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LoaderCircle } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 import {
   Pagination,
   PaginationContent,
@@ -142,13 +142,7 @@ export default function ArticleManagement() {
   const endIndex = startIndex + itemsPerPage;
   const paginatedArticles = filteredArticles.slice(startIndex, endIndex);
 
-  if (loading)
-    return (
-      <div className="p-6 min-h-screen flex justify-center gap-4">
-        <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
-        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-      </div>
-    );
+  if (loading) return <Loading />;
   if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
 
   return (

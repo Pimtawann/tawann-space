@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import ConfirmDeleteArticleDialog from "@/components/modal/ConfirmDeleteArticleDialog";
-import { LoaderCircle, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 
 export default function EditArticle() {
   const navigate = useNavigate();
@@ -202,12 +203,7 @@ export default function EditArticle() {
   };
 
   if (isFetching) {
-    return (
-      <div className="flex gap-4 items-center justify-center min-h-screen">
-        <LoaderCircle className="h-5 w-5 text-brown-6 animate-spin" />
-        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

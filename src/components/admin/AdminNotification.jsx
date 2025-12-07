@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { User } from "lucide-react";
 import axios from "axios";
+import { DotLoader } from "react-spinners";
 
 export default function AdminNotification() {
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalNotifications, setTotalNotifications] = useState(0);
 
   useEffect(() => {
     fetchNotifications(currentPage);
@@ -32,7 +32,6 @@ export default function AdminNotification() {
 
       setNotifications(response.data.notifications);
       setTotalPages(response.data.totalPages);
-      setTotalNotifications(response.data.totalNotifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     } finally {
@@ -67,8 +66,9 @@ export default function AdminNotification() {
     <div>
       <div className="px-8 pb-15">
         {isLoading ? (
-          <div className="text-center text-brown-4 py-12">
-            <p className="text-lg">Loading notifications...</p>
+          <div className="flex flex-col items-center justify-center gap-4 py-12">
+            <DotLoader color="#957341" size={60} />
+            <p className="text-brown-6 text-lg font-semibold">Loading notifications...</p>
           </div>
         ) : notifications.length === 0 ? (
           <div className="text-center text-brown-4 py-12">

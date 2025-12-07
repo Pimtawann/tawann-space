@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { LoaderCircle } from "lucide-react";
+import Loading from "@/components/ui/Loading";
 
 import PublicNavbar from "@/components/navbar/PublicNavbar.jsx";
 import MemberNavbar from "@/components/navbar/MemberNavbar.jsx";
@@ -86,13 +86,7 @@ export default function ViewPostPage() {
     };
   }, [param.postId]);
 
-  if (status === "loading")
-    return (
-      <div className="min-h-screen flex items-center justify-center gap-4">
-        <LoaderCircle className="h-5 w-5 animate-spin" />
-        <p className="text-brown-6 text-lg font-semibold">Loading...</p>
-      </div>
-    );
+  if (status === "loading") return <Loading />;
   if (status === "notfound") return <NotFoundPage />;
   if (status === "error")
     return (
@@ -156,6 +150,9 @@ export default function ViewPostPage() {
                                 day: "numeric",
                                 month: "short",
                                 year: "numeric",
+                              })} at {new Date(comment.created_at).toLocaleTimeString("en-GB", {
+                                hour: "2-digit",
+                                minute: "2-digit",
                               })}
                             </span>
                         </div>
