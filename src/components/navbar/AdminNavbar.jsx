@@ -314,15 +314,6 @@ export default function AdminNavbar() {
             >
               <RefreshCcw className="w-6 h-6" /> Reset password
             </button>
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                navigate("/admin/article");
-              }}
-              className="flex items-center gap-3 text-brown-5 font-medium px-3 cursor-pointer"
-            >
-              <SquareArrowOutUpRight className="w-6 h-6" /> Admin panel
-            </button>
             <hr className="border-brown-3" />
             <button
               onClick={() => {
